@@ -13,4 +13,13 @@
     <string name="сontacts">Контакты</string>
     <string name="about_the_theater">О театре</string>
     <string name="news">Новости</string>
+
+    <string name="date">Дата спектакля</string>
+    <string name="day">День спектакля</string>
+    <string name="title">Название спектакля</string>
+    <string name="timeLenght">Время спектакля</string>
+    <string name="time">Время начала</string>
+    <string name="cost">Стоимость</string>
+
+
 </resources>

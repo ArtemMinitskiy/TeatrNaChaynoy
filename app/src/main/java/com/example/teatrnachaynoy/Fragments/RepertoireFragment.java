@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.teatrnachaynoy.R;
 
-public class News extends Fragment {
+public class RepertoireFragment extends Fragment {
 
-    public News() {
+    public RepertoireFragment() {
     }
 
     @SuppressLint("InflateParams")
@@ -22,6 +22,6 @@ public class News extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.news_fragment, null);
+        return inflater.inflate(R.layout.repertoire_fragment,null);
     }
 }

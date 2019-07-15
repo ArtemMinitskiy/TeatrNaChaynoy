@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.teatrnachaynoy.R;
 
-public class Troupe extends Fragment {
+public class ContactsFragment extends Fragment {
 
-    public Troupe() {
+    private View view;
+
+    public ContactsFragment() {
     }
 
     @SuppressLint("InflateParams")
@@ -22,6 +24,6 @@ public class Troupe extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.troupe_fragment,null);
+        return inflater.inflate(R.layout.contacts_fragment,null);
     }
 }

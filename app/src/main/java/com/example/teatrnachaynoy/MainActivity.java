@@ -14,12 +14,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.teatrnachaynoy.Fragments.About;
-import com.example.teatrnachaynoy.Fragments.Contacts;
-import com.example.teatrnachaynoy.Fragments.News;
-import com.example.teatrnachaynoy.Fragments.Repertoire;
-import com.example.teatrnachaynoy.Fragments.Schedule;
-import com.example.teatrnachaynoy.Fragments.Troupe;
+import com.example.teatrnachaynoy.Fragments.AboutFragment;
+import com.example.teatrnachaynoy.Fragments.ContactsFragment;
+import com.example.teatrnachaynoy.Fragments.NewsFragment;
+import com.example.teatrnachaynoy.Fragments.RepertoireFragment;
+import com.example.teatrnachaynoy.Fragments.ScheduleFragment;
+import com.example.teatrnachaynoy.Fragments.TroupeFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setView() {
-        fragmentTransaction.replace(R.id.containerView, new Schedule()).commit();
+        fragmentTransaction.replace(R.id.containerView, new ScheduleFragment()).commit();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,22 +76,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (item.getItemId()) {
             case R.id.schedule:
-                fragmentTransaction.replace(R.id.containerView, new Schedule()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerView, new ScheduleFragment()).addToBackStack(null).commit();
                 break;
             case R.id.repertoire:
-                fragmentTransaction.replace(R.id.containerView, new Repertoire()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerView, new RepertoireFragment()).addToBackStack(null).commit();
                 break;
             case R.id.troupe:
-                fragmentTransaction.replace(R.id.containerView, new Troupe()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerView, new TroupeFragment()).addToBackStack(null).commit();
                 break;
             case R.id.news:
-                fragmentTransaction.replace(R.id.containerView, new News()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerView, new NewsFragment()).addToBackStack(null).commit();
                 break;
             case R.id.сontacts:
-                fragmentTransaction.replace(R.id.containerView, new Contacts()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerView, new ContactsFragment()).addToBackStack(null).commit();
                 break;
             case R.id.about_the_theater:
-                fragmentTransaction.replace(R.id.containerView, new About()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerView, new AboutFragment()).addToBackStack(null).commit();
                 break;
 
         }
