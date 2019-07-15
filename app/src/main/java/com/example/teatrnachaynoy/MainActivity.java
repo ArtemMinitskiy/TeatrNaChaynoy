@@ -1,7 +1,5 @@
 package com.example.teatrnachaynoy;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
@@ -13,26 +11,40 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.teatrnachaynoy.Fragments.About;
+import com.example.teatrnachaynoy.Fragments.Contacts;
+import com.example.teatrnachaynoy.Fragments.News;
+import com.example.teatrnachaynoy.Fragments.Repertoire;
+import com.example.teatrnachaynoy.Fragments.Schedule;
+import com.example.teatrnachaynoy.Fragments.Troupe;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
     private DrawerLayout drawer;
-    private NavigationView navigationView;
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
         setView();
 
     }
 
     private void setView() {
-        toolbar = findViewById(R.id.toolbar);
+        fragmentTransaction.replace(R.id.containerView, new Schedule()).commit();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Window window = getWindow();
@@ -40,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
 
         drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorWhite));
@@ -58,22 +70,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.schedule) {
-
-        } else if (id == R.id.repertoire) {
-
-        } else if (id == R.id.troupe) {
-
-        } else if (id == R.id.news) {
-
-        } else if (id == R.id.сontacts) {
-
-        } else if (id == R.id.about_the_theater) {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        switch (item.getItemId()) {
+            case R.id.schedule:
+                fragmentTransaction.replace(R.id.containerView, new Schedule()).addToBackStack(null).commit();
+                break;
+            case R.id.repertoire:
+                fragmentTransaction.replace(R.id.containerView, new Repertoire()).addToBackStack(null).commit();
+                break;
+            case R.id.troupe:
+                fragmentTransaction.replace(R.id.containerView, new Troupe()).addToBackStack(null).commit();
+                break;
+            case R.id.news:
+                fragmentTransaction.replace(R.id.containerView, new News()).addToBackStack(null).commit();
+                break;
+            case R.id.сontacts:
+                fragmentTransaction.replace(R.id.containerView, new Contacts()).addToBackStack(null).commit();
+                break;
+            case R.id.about_the_theater:
+                fragmentTransaction.replace(R.id.containerView, new About()).addToBackStack(null).commit();
+                break;
 
         }
 

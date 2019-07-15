@@ -6,19 +6,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/schedule"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
             android:title="@string/schedule" />
         <item
             android:id="@+id/repertoire"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_assignment_black_24dp"
             android:title="@string/repertoire" />
         <item
             android:id="@+id/troupe"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_face_black_24dp"
             android:title="@string/troupe" />
         <item
             android:id="@+id/news"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_directions_run_black_24dp"
             android:title="@string/news" />
     </group>
 
@@ -26,11 +26,11 @@
         <menu>
             <item
                 android:id="@+id/сontacts"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_contacts_black_24dp"
                 android:title="@string/сontacts" />
             <item
                 android:id="@+id/about_the_theater"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_info_outline_black_24dp"
                 android:title="@string/about_the_theater" />
         </menu>
     </item>
