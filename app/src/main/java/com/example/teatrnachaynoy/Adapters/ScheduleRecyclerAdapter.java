@@ -11,7 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teatrnachaynoy.Schedule;
 import com.example.teatrnachaynoy.databinding.ScheduleItemBinding;
 
+import java.util.ArrayList;
+
 public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecyclerAdapter.ViewHolder> {
+
+    private ArrayList<Schedule> scheduleList;
+
+    public ScheduleRecyclerAdapter(ArrayList<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -22,16 +31,14 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Schedule schedule = scheduleList.get(position);
+        holder.binding.setSchedule(schedule);
 
-        for (int i = 0; i < 10; i++) {
-            Schedule schedule = new Schedule("19:00", "50 мин", "75 грн", "Продолжительность: 55 мин", "С Днем Рождения. сынок!", "Пятница");
-            holder.binding.setSchedule(schedule);
-        }
     }
 
     @Override
     public int getItemCount() {
-        return 9;
+        return scheduleList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
