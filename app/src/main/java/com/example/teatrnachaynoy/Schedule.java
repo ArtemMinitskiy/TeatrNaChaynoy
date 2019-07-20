@@ -5,12 +5,14 @@ public class Schedule {
     private String date;
     private String time_and_price;
     private String time_lenght;
+    private String link;
 
-    public Schedule(String title, String date, String time_and_price, String time_lenght) {
+    public Schedule(String title, String date, String time_and_price, String time_lenght, String link) {
         this.title = title;
         this.date = date;
         this.time_and_price = time_and_price;
         this.time_lenght = time_lenght;
+        this.link = link;
     }
 
     public String getTitle() {
@@ -43,5 +45,13 @@ public class Schedule {
 
     public void setTime_lenght(String time_lenght) {
         this.time_lenght = time_lenght;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

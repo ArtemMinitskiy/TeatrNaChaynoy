@@ -1,5 +1,7 @@
 package com.example.teatrnachaynoy.Adapters;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teatrnachaynoy.MainActivity;
+import com.example.teatrnachaynoy.PerformanceDetailActivity;
 import com.example.teatrnachaynoy.Schedule;
 import com.example.teatrnachaynoy.databinding.ScheduleItemBinding;
 
@@ -31,9 +35,17 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Schedule schedule = scheduleList.get(position);
+        final Schedule schedule = scheduleList.get(position);
         holder.binding.setSchedule(schedule);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PerformanceDetailActivity.class);
+                intent.putExtra("href", schedule.getLink());
+                view.getContext().startActivity(intent);
 
+            }
+        });
     }
 
     @Override
@@ -47,6 +59,15 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(view.getContext(), PerformanceDetailActivity.class);
+//                    intent.putExtra("href", binding.getSchedule().getLink());
+//
+////                Log.i("Log", binding.getSchedule().getLink());
+//                }
+//            });
         }
     }
 }

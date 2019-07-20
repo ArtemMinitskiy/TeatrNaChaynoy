@@ -21,5 +21,9 @@
     <string name="time">Время начала</string>
     <string name="cost">Стоимость</string>
 
+    <string name="workOnPerf">Над спектаклем работали</string>
+    <string name="actors">Актеры</string>
+    <string name="director">Режиссёр:</string>
+
 
 </resources>

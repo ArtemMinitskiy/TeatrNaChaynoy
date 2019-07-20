@@ -40,12 +40,12 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.schedule_fragment,null);
-        new HtmlParserHelper().execute();
+        new ScheduleHtmlParserHelper().execute();
         return view;
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class HtmlParserHelper extends AsyncTask<Void, Void, Void>{
+    private class ScheduleHtmlParserHelper extends AsyncTask<Void, Void, Void>{
         final ArrayList<Schedule> schedulesList = new ArrayList<>();
 
         @Override
@@ -68,20 +68,21 @@ public class ScheduleFragment extends Fragment {
                 for (int i = 0; i < rows.size(); i++) {
                     Element row = rows.get(i);
                     Elements cols = row.select("td");
-                    Elements span = cols.select("span.wrap");
-                    Elements a = span.select("a.url");
-                    Elements timeLenght = span.select("span.time-lenght");
+                    Elements date = cols.select("span.wrap");
+                    Elements title = date.select("a.url");
+                    Elements timeLenght = date.select("span.time-lenght");
 
-                    Log.i("Log", "Title: " + a.get(0).text());
-                    Log.i("Log", "Date: " + span.get(0).text().substring(0, cols.get(0).text().indexOf(",")));
-                    Log.i("Log", "Time and price: " + cols.get(2).text());
-                    Log.i("Log", "Time-lenght: " + timeLenght.get(0).text());
-                    Log.i("Log", "Href: " + a.attr("href"));
+//                    Log.i("Log", "Title: " + title.get(0).text());
+//                    Log.i("Log", "Date: " + date.get(0).text().substring(0, cols.get(0).text().indexOf(",")));
+//                    Log.i("Log", "Time and price: " + cols.get(2).text());
+//                    Log.i("Log", "Time-lenght: " + timeLenght.get(0).text());
+//                    Log.i("Log", "Href: " + title.attr("href"));
 
-                    schedule = new Schedule(a.get(0).text(),
-                            span.get(0).text().substring(0, cols.get(0).text().indexOf(",")),
+                    schedule = new Schedule(title.get(0).text(),
+                            date.get(0).text().substring(0, cols.get(0).text().indexOf(",")),
                             cols.get(2).text(),
-                            timeLenght.get(0).text());
+                            timeLenght.get(0).text(),
+                            title.attr("href"));
 
                     schedulesList.add(schedule);
 
