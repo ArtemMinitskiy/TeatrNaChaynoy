@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teatrnachaynoy.Adapters.PerformanceActorsAdapter;
 import com.example.teatrnachaynoy.databinding.ActivityPerformanceDetailBinding;
 import com.squareup.picasso.Picasso;
 
@@ -22,11 +24,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PerformanceDetailActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private ActivityPerformanceDetailBinding binding;
+    private ArrayList<ActorsInfo> actorsInfoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class PerformanceDetailActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private class PerformanceHtmlParserHelper extends AsyncTask<Void, Void, Void> {
         Performance performance;
+        ActorsInfo actorsInfo;
 
         @Override
         protected void onPreExecute() {
@@ -50,7 +55,6 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             Document doc;
-            StringBuffer actors = new StringBuffer();
             Intent intent = getIntent();
             String hrefTxt = intent.getStringExtra("href");
             try {
@@ -67,9 +71,16 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                     Elements li = ulElem.select("li");
 
                     for (int j = 0; j < li.size(); j++) {
-                        actors.append(li.get(j).text());
-                        actors.append(System.getProperty("line.separator"));
-//                        Log.i("Log", "Person: " + actors);
+                        Elements a = li.get(j).select("a");
+                        String name = li.get(j).text().split("-")[0];
+                        String character = li.get(j).text().split("-")[1];
+
+//                        Log.i("Log", "Name: " + name.trim() + " " + "Char: " + character.trim());
+//                        Log.i("Log", "Name: " + a.attr("href"));
+
+                        actorsInfo = new ActorsInfo(name.trim(), character.trim(), "", a.attr("href"));
+
+                        actorsInfoList.add(actorsInfo);
 
                     }
                 }
@@ -79,8 +90,8 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                         p.get(2).text(),
                         p.get(3).text(),
                         "",
-                        director.get(0).text(),
-                        actors);
+                        director.get(0).text()
+                        );
 
 //                Log.i("Log", "Title: " + title.get(0).text());
 //                Log.i("Log", "Image: " + image.attr("src"));
@@ -98,6 +109,14 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            RecyclerView recyclerView = findViewById(R.id.perf_actors);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(layoutManager);
+
+            RecyclerView.Adapter adapter = new PerformanceActorsAdapter(actorsInfoList);
+            adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter);
 
             binding.setPerformance(performance);
             progressBar.setVisibility(ProgressBar.INVISIBLE);

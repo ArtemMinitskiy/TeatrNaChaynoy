@@ -24,6 +24,8 @@
     <string name="workOnPerf">Над спектаклем работали</string>
     <string name="actors">Актеры</string>
     <string name="director">Режиссёр:</string>
+    <string name="actors_name">Actors Name</string>
+    <string name="characters_name">Characters Name</string>
 
 
 </resources>

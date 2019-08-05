@@ -7,16 +7,14 @@ public class Performance {
     private String duration;
     private String description;
     private String director;
-    private StringBuffer actors;
 
-    public Performance(String title, String image_url, String genre, String duration, String description, String director, StringBuffer actors) {
+    public Performance(String title, String image_url, String genre, String duration, String description, String director) {
         this.title = title;
         this.image_url = image_url;
         this.genre = genre;
         this.duration = duration;
         this.description = description;
         this.director = director;
-        this.actors = actors;
     }
 
     public String getTitle() {
@@ -67,11 +65,4 @@ public class Performance {
         this.director = director;
     }
 
-    public StringBuffer getActors() {
-        return actors;
-    }
-
-    public void setActors(StringBuffer actors) {
-        this.actors = actors;
-    }
 }
