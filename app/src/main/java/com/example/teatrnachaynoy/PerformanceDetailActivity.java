@@ -55,6 +55,7 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             Document doc;
+            StringBuffer perfDescription = new StringBuffer();
             Intent intent = getIntent();
             String hrefTxt = intent.getStringExtra("href");
             try {
@@ -66,19 +67,29 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                 Elements director = div.select("li");
                 Elements ul = div.select("ul");
 
-                for (int i = 1; i < ul.size(); i++){
+                Elements divDesc = doc.select("div.desc");
+                Elements desc = divDesc.select("p");
+                for (int pDesc = 0; pDesc < desc.size(); pDesc++){
+//                    String perfDesc = desc.get(pDesc).text();
+                    perfDescription.append(desc.get(pDesc).text());
+                    perfDescription.append(System.getProperty("line.separator"));
+//                    Log.i("Log", "Description: " + perfDescription);
+
+                }
+
+                for (int i = 1; i < ul.size(); i++) {
                     Element ulElem = ul.get(i);
                     Elements li = ulElem.select("li");
 
                     for (int j = 0; j < li.size(); j++) {
                         Elements a = li.get(j).select("a");
-                        String name = li.get(j).text().split("-")[0];
-                        String character = li.get(j).text().split("-")[1];
+                        String character = li.get(j).text().split("-")[0];
+                        String name = li.get(j).text().split("-")[1];
 
 //                        Log.i("Log", "Name: " + name.trim() + " " + "Char: " + character.trim());
 //                        Log.i("Log", "Name: " + a.attr("href"));
 
-                        actorsInfo = new ActorsInfo(name.trim(), character.trim(), "", a.attr("href"));
+                        actorsInfo = new ActorsInfo(character.trim(), name.trim(), getImageSrc(name.trim()), a.attr("href"));
 
                         actorsInfoList.add(actorsInfo);
 
@@ -89,15 +100,16 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                         "http://tea-atr.com" + image.attr("src"),
                         p.get(2).text(),
                         p.get(3).text(),
-                        "",
+                        String.valueOf(perfDescription),
                         director.get(0).text()
-                        );
+                );
 
 //                Log.i("Log", "Title: " + title.get(0).text());
 //                Log.i("Log", "Image: " + image.attr("src"));
 //                Log.i("Log", "Genre: " + p.get(2).text());
 //                Log.i("Log", "Duration: " + p.get(3).text());
 //                Log.i("Log", "Director: " + director.get(0).text());
+//                Log.i("Log", "Description: " + divDesc.text());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -122,6 +134,86 @@ public class PerformanceDetailActivity extends AppCompatActivity {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }
+    }
+
+    public String getImageSrc(String name) {
+        String src = null;
+
+        switch (name) {
+            case "Александр Бойко":
+                src = "http://tea-atr.com/images/u/person/4.jpg?v=1404166837";
+                break;
+            case "Александр Онищенко":
+                src = "http://tea-atr.com/images/u/person/1.jpg?v=1383865774";
+                break;
+            case "Ангелина Смиян":
+                src = "http://tea-atr.com/images/u/person/46.jpg?v=1494348313";
+                break;
+            case "Анна Милешина":
+                src = "http://tea-atr.com/images/u/person/49.jpg?v=1553116373";
+                break;
+            case "Валерия Задумкина":
+                src = "http://tea-atr.com/images/u/person/9.jpg?v=1502195911";
+                break;
+            case "Владимир Ангел":
+                src = "http://tea-atr.com/images/u/person/42.jpg?v=1489614336";
+                break;
+            case "Владислав Костыка":
+                src = "http://tea-atr.com/images/u/person/10.jpg?v=1540412793";
+                break;
+            case "Денис Фалюта":
+                src = "http://tea-atr.com/images/u/person/32.jpg?v=1411661405";
+                break;
+            case "Егор Карельский":
+                src = "http://tea-atr.com/images/u/person/47.jpg?v=1494347263";
+                break;
+            case "Елена Юзвак":
+                src = "http://tea-atr.com/images/u/person/5.jpg?v=1380663572";
+                break;
+            case "Ирина Костырко":
+                src = "http://tea-atr.com/images/u/person/7.jpg?v=1380745782";
+                break;
+            case "Милена Компаниец":
+                src = "http://tea-atr.com/images/u/person/50.jpg?v=1547163941";
+                break;
+            case "Олег Симоненко":
+                src = "http://tea-atr.com/images/u/person/40.jpg?v=1467660103";
+                break;
+            case "Олег Фендюра":
+                src = "http://tea-atr.com/images/u/person/41.jpg?v=1467144625";
+                break;
+            case "Олег Шевчук":
+                src = "http://tea-atr.com/images/u/person/13.jpg?v=1383679196";
+                break;
+            case "Ольга Белоконь":
+                src = "http://tea-atr.com/images/u/person/51.jpg?v=1556533542";
+                break;
+            case "Ольга Салтыкова":
+                src = "http://tea-atr.com/images/u/person/12.jpg?v=1378967052";
+                break;
+            case "Руслана Рудая":
+                src = "http://tea-atr.com/images/u/person/3.jpg?v=1395664011";
+                break;
+            case "Сергей Деньга":
+                src = "http://tea-atr.com/images/u/person/43.jpg?v=1554714954";
+                break;
+            case "Татьяна Параскева":
+                src = "http://tea-atr.com/images/u/person/2.jpg?v=1379877683";
+                break;
+            case "Филипп Азаренко":
+                src = "http://tea-atr.com/images/u/person/14.jpg?v=1379878307";
+                break;
+            case "Юлия Амелькина":
+                src = "http://tea-atr.com/images/u/person/39.jpg?v=1447941593";
+                break;
+            case "Юрий Невгамонный":
+                src = "http://tea-atr.com/images/u/person/44.jpg?v=1502391146";
+                break;
+            default:
+                break;
+        }
+
+        return src;
     }
 
     @BindingAdapter({"imageUrl"})

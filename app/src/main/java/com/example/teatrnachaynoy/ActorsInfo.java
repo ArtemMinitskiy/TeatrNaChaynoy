@@ -9,9 +9,9 @@ public class ActorsInfo {
     public ActorsInfo() {
     }
 
-    public ActorsInfo(String name, String charecter, String image, String link) {
-        this.name = name;
+    public ActorsInfo(String charecter, String name, String image, String link) {
         this.charecter = charecter;
+        this.name = name;
         this.image = image;
         this.link = link;
     }
