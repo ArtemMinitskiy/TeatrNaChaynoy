@@ -28,6 +28,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitCenter"
+                android:src="@drawable/ic_face_black_24dp"
                 app:imageUrl="@{actorsInfo.image}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

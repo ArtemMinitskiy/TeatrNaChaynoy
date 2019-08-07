@@ -40,6 +40,7 @@ public class PerformanceActorsAdapter extends RecyclerView.Adapter<PerformanceAc
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ActorsActivity.class);
                 intent.putExtra("href", actorsInfo.getLink());
+                intent.putExtra("imageUrl", actorsInfo.getImage());
                 view.getContext().startActivity(intent);
 
             }
@@ -57,15 +58,7 @@ public class PerformanceActorsAdapter extends RecyclerView.Adapter<PerformanceAc
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(view.getContext(), PerformanceDetailActivity.class);
-//                    intent.putExtra("href", binding.getSchedule().getLink());
-//
-////                Log.i("Log", binding.getSchedule().getLink());
-//                }
-//            });
+
         }
 
     }

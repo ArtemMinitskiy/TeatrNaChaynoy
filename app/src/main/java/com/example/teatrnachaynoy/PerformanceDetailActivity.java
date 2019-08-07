@@ -70,10 +70,8 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                 Elements divDesc = doc.select("div.desc");
                 Elements desc = divDesc.select("p");
                 for (int pDesc = 0; pDesc < desc.size(); pDesc++){
-//                    String perfDesc = desc.get(pDesc).text();
                     perfDescription.append(desc.get(pDesc).text());
                     perfDescription.append(System.getProperty("line.separator"));
-//                    Log.i("Log", "Description: " + perfDescription);
 
                 }
 
@@ -85,9 +83,6 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                         Elements a = li.get(j).select("a");
                         String character = li.get(j).text().split("-")[0];
                         String name = li.get(j).text().split("-")[1];
-
-//                        Log.i("Log", "Name: " + name.trim() + " " + "Char: " + character.trim());
-//                        Log.i("Log", "Name: " + a.attr("href"));
 
                         actorsInfo = new ActorsInfo(character.trim(), name.trim(), getImageSrc(name.trim()), a.attr("href"));
 
