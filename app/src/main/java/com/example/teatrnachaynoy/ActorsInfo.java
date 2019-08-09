@@ -11,6 +11,11 @@ public class ActorsInfo {
     public ActorsInfo() {
     }
 
+    public ActorsInfo(String name, String link) {
+        this.name = name;
+        this.link = link;
+    }
+
     public ActorsInfo(String name, String image, String description, String partOfPerf, String link) {
         this.name = name;
         this.description = description;
