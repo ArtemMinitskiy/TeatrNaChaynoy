@@ -150,7 +150,11 @@ public class ActorsActivity extends AppCompatActivity {
             expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                    Toast.makeText(getApplicationContext(), expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
+                    String title = expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition);
+//                    Log.i("Log", title.substring(0, title.lastIndexOf("\"") + 1));
+                    Intent intent = new Intent(getApplicationContext(), PerformanceDetailActivity.class);
+                    intent.putExtra("href", getPerformanceHref(title.substring(0, title.lastIndexOf("\"") + 1)));
+                    startActivity(intent);
                     return false;
                 }
             });
@@ -165,6 +169,83 @@ public class ActorsActivity extends AppCompatActivity {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }
+    }
+
+    private String getPerformanceHref(String title) {
+        String href = null;
+
+        switch (title) {
+            case "\"Тайна семейства Рэйвенскрофт\"":
+                href = "/show/41";
+                break;
+            case "\"Ave Мария Ивановна\"":
+                href = "/show/6";
+                break;
+            case "\"В мире животных\"":
+                href = "/show/37";
+                break;
+            case "\"Гармония\"":
+                href = "/show/31";
+                break;
+            case "\"Главное, когда\"":
+                href = "/show/22";
+                break;
+            case "\"Две дамочки в сторону севера\"":
+                href = "/show/21";
+                break;
+            case "\"Если бы акулы стали людьми\"":
+                href = "/show/7";
+                break;
+            case "\"За стеклом\"":
+                href = "/show/1";
+                break;
+            case "\"Иллюзии\"":
+                href = "/show/38";
+                break;
+            case "\"Маленький Донни, победивший мрак\"":
+                href = "/show/17";
+                break;
+            case "\"Натали\"":
+                href = "/show/24";
+                break;
+            case "\"Наш городок\"":
+                href = "/show/30";
+                break;
+            case "\"Осінь\"":
+                href = "/show/25";
+                break;
+            case "ПРЕМЬЕРА! \"ХХ. Семейная хроника\"":
+                href = "/show/44";
+                break;
+            case "\"С Днем Рождения. сынок!\"":
+                href = "/show/42";
+                break;
+            case "\"Смерть Фирса\"":
+                href = "/show/28";
+                break;
+            case "\"Смешная академия\"":
+                href = "/show/29";
+                break;
+            case "\"Старики\"":
+                href = "/show/36";
+                break;
+            case "\"Стоило?!\"":
+                href = "/show/43";
+                break;
+            case "\"Странный спектакль\"":
+                href = "/show/39";
+                break;
+            case "\"Стриптиз\"":
+                href = "/show/27";
+                break;
+            case "\"Чеховские мотивы\"":
+                href = "/show/26";
+                break;
+            default:
+                break;
+        }
+
+        return href;
     }
 
     private void setListViewHeight(ExpandableListView listView, int group) {
