@@ -1,18 +1,38 @@
 package com.example.teatrnachaynoy.Fragments;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teatrnachaynoy.Adapters.RepertoireRecyclerAdapter;
+import com.example.teatrnachaynoy.Adapters.ScheduleRecyclerAdapter;
 import com.example.teatrnachaynoy.R;
+import com.example.teatrnachaynoy.Repertoire;
+import com.example.teatrnachaynoy.Schedule;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class RepertoireFragment extends Fragment {
+
+    private ProgressBar progressBar;
+    private View view;
 
     public RepertoireFragment() {
     }
@@ -21,7 +41,81 @@ public class RepertoireFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.repertoire_fragment, null);
+        new RepertoireHtmlParserHelper().execute();
+        return view;
+    }
 
-        return inflater.inflate(R.layout.repertoire_fragment,null);
+    @SuppressLint("StaticFieldLeak")
+    private class RepertoireHtmlParserHelper extends AsyncTask<Void, Void, Void> {
+        final ArrayList<Repertoire> repertoireList = new ArrayList<>();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar = view.findViewById(R.id.progressRepertoire);
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Document doc;
+            Repertoire repertoire;
+            try {
+                doc = Jsoup.connect("http://www.tea-atr.com/show").get();
+                Elements pageUrl = doc.select("li.last");
+                String hrefLastPage = pageUrl.select("a").attr("href");
+                int numberOfPage = Integer.parseInt(hrefLastPage.substring(hrefLastPage.lastIndexOf("=") + 1));
+                String url = "http://www.tea-atr.com/show?page=";
+
+                for (int i = 1; i < numberOfPage; i++) {
+                    Document docPage = Jsoup.connect(url + i).get();
+
+                    Elements divItems = docPage.select("div.items");
+                    Elements divItem = divItems.select("div.item");
+                    for (int j = 0; j < divItem.size(); j++) {
+                        String imageUrl = divItem.select("img").get(j).attr("src");
+                        String divDesc = divItem.select("div.desc").get(j).text();
+                        String description = divDesc.substring(0, divDesc.lastIndexOf(".")) + ".";
+
+                        Element title = divItem.select("h3").get(j);
+                        String link = title.select("a").get(0).attr("href");
+
+//                        Log.i("Log", "Image: " + "http://www.tea-atr.com" + imageUrl);
+//                        Log.i("Log", "Title: " + title.text());
+//                        Log.i("Log", "Description: " + description.replace(title.text(), "").trim());
+//                        Log.i("Log", "Link: " + link);
+
+                        repertoire = new Repertoire("http://www.tea-atr.com" + imageUrl,
+                                title.text(),
+                                description.replace(title.text(), "").trim(),
+                                link);
+
+                        repertoireList.add(repertoire);
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            RecyclerView recyclerView = view.findViewById(R.id.repertoireRecycler);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(layoutManager);
+
+            RecyclerView.Adapter adapter = new RepertoireRecyclerAdapter(repertoireList);
+            adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter);
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
+
+        }
     }
 }

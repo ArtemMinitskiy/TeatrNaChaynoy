@@ -27,6 +27,7 @@
     <string name="actors_name">Actors Name</string>
     <string name="characters_name">Characters Name</string>
     <string name="partInPerf">Участие в спектаклях</string>
+    <string name="details">Подробнее</string>
 
 
 </resources>
