@@ -16,10 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teatrnachaynoy.Adapters.RepertoireRecyclerAdapter;
-import com.example.teatrnachaynoy.Adapters.ScheduleRecyclerAdapter;
 import com.example.teatrnachaynoy.R;
 import com.example.teatrnachaynoy.Repertoire;
-import com.example.teatrnachaynoy.Schedule;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,14 +32,11 @@ public class RepertoireFragment extends Fragment {
     private ProgressBar progressBar;
     private View view;
 
-    public RepertoireFragment() {
-    }
-
     @SuppressLint("InflateParams")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.repertoire_fragment, null);
+        view = inflater.inflate(R.layout.recycler_fragment, null);
         new RepertoireHtmlParserHelper().execute();
         return view;
     }
@@ -53,7 +48,7 @@ public class RepertoireFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar = view.findViewById(R.id.progressRepertoire);
+            progressBar = view.findViewById(R.id.progressBar);
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
         }
@@ -75,19 +70,21 @@ public class RepertoireFragment extends Fragment {
                     Elements divItems = docPage.select("div.items");
                     Elements divItem = divItems.select("div.item");
                     for (int j = 0; j < divItem.size(); j++) {
-                        String imageUrl = divItem.select("img").get(j).attr("src");
-                        String divDesc = divItem.select("div.desc").get(j).text();
-                        String description = divDesc.substring(0, divDesc.lastIndexOf(".")) + ".";
-
                         Element title = divItem.select("h3").get(j);
                         String link = title.select("a").get(0).attr("href");
 
-//                        Log.i("Log", "Image: " + "http://www.tea-atr.com" + imageUrl);
+                        Document docInsideImage = Jsoup.connect("http://www.tea-atr.com" + link).get();
+                        Elements image = docInsideImage.select("img.cover");
+//                        String imageUrl = divItem.select("img").get(j).attr("src");
+                        String divDesc = divItem.select("div.desc").get(j).text();
+                        String description = divDesc.substring(0, divDesc.lastIndexOf(".")) + ".";
+
+//                        Log.i("Log", "Image: " + "http://www.tea-atr.com" + image.attr("src"));
 //                        Log.i("Log", "Title: " + title.text());
 //                        Log.i("Log", "Description: " + description.replace(title.text(), "").trim());
 //                        Log.i("Log", "Link: " + link);
 
-                        repertoire = new Repertoire("http://www.tea-atr.com" + imageUrl,
+                        repertoire = new Repertoire("http://www.tea-atr.com" + image.attr("src"),
                                 title.text(),
                                 description.replace(title.text(), "").trim(),
                                 link);
@@ -106,7 +103,7 @@ public class RepertoireFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            RecyclerView recyclerView = view.findViewById(R.id.repertoireRecycler);
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(layoutManager);

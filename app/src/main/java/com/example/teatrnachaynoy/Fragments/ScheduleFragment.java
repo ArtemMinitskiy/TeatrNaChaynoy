@@ -3,7 +3,6 @@ package com.example.teatrnachaynoy.Fragments;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class ScheduleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.schedule_fragment,null);
+        view = inflater.inflate(R.layout.recycler_fragment,null);
         new ScheduleHtmlParserHelper().execute();
         return view;
     }
@@ -51,7 +50,7 @@ public class ScheduleFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar = view.findViewById(R.id.progressSchedule);
+            progressBar = view.findViewById(R.id.progressBar);
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
         }
@@ -98,7 +97,7 @@ public class ScheduleFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            RecyclerView recyclerView = view.findViewById(R.id.scheduleRecycler);
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(layoutManager);
