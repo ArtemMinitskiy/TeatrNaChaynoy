@@ -4,6 +4,7 @@
     package="com.example.teatrnachaynoy">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ActorsActivity"></activity>
+        <activity android:name=".ActorsActivity"/>
         <activity android:name=".PerformanceDetailActivity" />
         <activity
             android:name=".MainActivity"

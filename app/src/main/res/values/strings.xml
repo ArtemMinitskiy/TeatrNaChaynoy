@@ -23,11 +23,17 @@
 
     <string name="workOnPerf">Над спектаклем работали</string>
     <string name="actors">Актеры</string>
-    <string name="director">Режиссёр:</string>
+    <string name="director">Руководитель театра</string>
+    <string name="directorName">Александр Онищенко</string>
     <string name="actors_name">Actors Name</string>
     <string name="characters_name">Characters Name</string>
     <string name="partInPerf">Участие в спектаклях</string>
     <string name="details">Подробнее</string>
+    <string name="geo">ООО \"Студия 10/1\" Украина, Одесса, ул. Маразлиевская 34-А.</string>
+    <string name="phone_number">\"(048) 743-14-21\"</string>
+    <string name="phone_number_2">\"(093) 487-84-16\"</string>
+    <string name="web">http://tea-atr.com/</string>
+    <string name="email">info@tea-atr.com</string>
 
 
 </resources>
