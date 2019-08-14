@@ -65,8 +65,10 @@ public class TroupeFragment extends Fragment {
                 String hrefLastPage = pageUrl.select("a").attr("href");
                 int numberOfPage = Integer.parseInt(hrefLastPage.substring(hrefLastPage.lastIndexOf("=") + 1));
                 String url = "http://tea-atr.com/person?page=";
+                int i = 0;
 
-                for (int i = 1; i < numberOfPage; i++) {
+                do {
+                    i++;
                     Document docPage = Jsoup.connect(url + i).get();
 
                     Elements divItems = docPage.select("div.items");
@@ -80,10 +82,10 @@ public class TroupeFragment extends Fragment {
                         Element name = divItem.select("h3").get(j);
                         String link = name.select("a").get(0).attr("href");
 
-                        Log.i("Log", "Image: " + "http://www.tea-atr.com" + imageUrl);
-                        Log.i("Log", "Name: " + name.text());
-                        Log.i("Log", "Description: " + description.replace(name.text(), "").trim());
-                        Log.i("Log", "Link: " + link);
+//                        Log.i("Log", "Image: " + "http://www.tea-atr.com" + imageUrl);
+//                        Log.i("Log", "Name: " + name.text());
+//                        Log.i("Log", "Description: " + description.replace(name.text(), "").trim());
+//                        Log.i("Log", "Link: " + link);
 
                         actorsInfo = new ActorsInfo(description.replace(name.text(), "").trim(),
                                 name.text(),
@@ -92,7 +94,7 @@ public class TroupeFragment extends Fragment {
 
                         actorsInfoArrayList.add(actorsInfo);
                     }
-                }
+                }while (i < numberOfPage);
 
             } catch (IOException e) {
                 e.printStackTrace();

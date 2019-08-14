@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
@@ -25,6 +25,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PerformanceDetailActivity extends AppCompatActivity {
 
@@ -32,10 +33,12 @@ public class PerformanceDetailActivity extends AppCompatActivity {
     private ActivityPerformanceDetailBinding binding;
     private ArrayList<ActorsInfo> actorsInfoList = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_performance_detail);
+
         new PerformanceHtmlParserHelper().execute();
     }
 
@@ -116,6 +119,10 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
             RecyclerView recyclerView = findViewById(R.id.perf_actors);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
             recyclerView.setHasFixedSize(true);
@@ -129,6 +136,12 @@ public class PerformanceDetailActivity extends AppCompatActivity {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public String getImageSrc(String name) {

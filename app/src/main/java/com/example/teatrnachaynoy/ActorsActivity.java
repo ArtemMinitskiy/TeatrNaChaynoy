@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ActorsActivity extends AppCompatActivity {
 
@@ -38,7 +40,7 @@ public class ActorsActivity extends AppCompatActivity {
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
-    private HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
+    private HashMap<String, List<String>> expandableListDetail = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class ActorsActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class PerformanceHtmlParserHelper extends AsyncTask<Void, Void, Void> {
         ActorsInfo actorsInfo;
 
@@ -63,7 +66,7 @@ public class ActorsActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             Document doc;
             StringBuffer perfDescription = new StringBuffer();
-            StringBuffer actorsPerf = new StringBuffer();
+//            StringBuffer actorsPerf = new StringBuffer();
             Intent intent = getIntent();
             String hrefTxt = intent.getStringExtra("href");
             String imageUrl = intent.getStringExtra("imageUrl");
@@ -79,7 +82,7 @@ public class ActorsActivity extends AppCompatActivity {
 
                 }
 
-                List<String> actorsList = new ArrayList<String>();
+                List<String> actorsList = new ArrayList<>();
                 Elements h4 = doc.select("h4");
                 String actor = h4.get(0).text();
 //                actorsPerf.append(actor);
@@ -93,10 +96,10 @@ public class ActorsActivity extends AppCompatActivity {
 //                    actorsPerf.append(System.getProperty("line.separator"));
                 }
 
-                String director = "";
+                String director;
                 if (h4.size() == 2) {
                     director = h4.get(1).text();
-                    List<String> directorsList = new ArrayList<String>();
+                    List<String> directorsList = new ArrayList<>();
 //                    actorsPerf.append(director);
 //                    actorsPerf.append(System.getProperty("line.separator"));
                     Element rolesDirector = doc.select("ul.roles").get(1);
@@ -107,8 +110,6 @@ public class ActorsActivity extends AppCompatActivity {
 //                        actorsPerf.append(System.getProperty("line.separator"));
                     }
                     expandableListDetail.put(director, directorsList);
-                } else {
-                    director = "";
                 }
                 expandableListDetail.put(actor, actorsList);
                 actorsInfo = new ActorsInfo(actorsName.text(),
@@ -138,10 +139,13 @@ public class ActorsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
             binding.setActors(actorsInfo);
 
-            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-            expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+            expandableListView = findViewById(R.id.expandableListView);
+            expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
             expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, expandableListDetail);
             expandableListView.setAdapter(expandableListAdapter);
 
@@ -169,6 +173,12 @@ public class ActorsActivity extends AppCompatActivity {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private String getPerformanceHref(String title) {
@@ -249,7 +259,7 @@ public class ActorsActivity extends AppCompatActivity {
     }
 
     private void setListViewHeight(ExpandableListView listView, int group) {
-        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
+        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {

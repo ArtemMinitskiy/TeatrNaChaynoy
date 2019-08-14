@@ -63,10 +63,11 @@ public class RepertoireFragment extends Fragment {
                 String hrefLastPage = pageUrl.select("a").attr("href");
                 int numberOfPage = Integer.parseInt(hrefLastPage.substring(hrefLastPage.lastIndexOf("=") + 1));
                 String url = "http://www.tea-atr.com/show?page=";
+                int i = 0;
 
-                for (int i = 1; i < numberOfPage; i++) {
+                do {
+                    i++;
                     Document docPage = Jsoup.connect(url + i).get();
-
                     Elements divItems = docPage.select("div.items");
                     Elements divItem = divItems.select("div.item");
                     for (int j = 0; j < divItem.size(); j++) {
@@ -75,7 +76,6 @@ public class RepertoireFragment extends Fragment {
 
                         Document docInsideImage = Jsoup.connect("http://www.tea-atr.com" + link).get();
                         Elements image = docInsideImage.select("img.cover");
-//                        String imageUrl = divItem.select("img").get(j).attr("src");
                         String divDesc = divItem.select("div.desc").get(j).text();
                         String description = divDesc.substring(0, divDesc.lastIndexOf(".")) + ".";
 
@@ -91,7 +91,7 @@ public class RepertoireFragment extends Fragment {
 
                         repertoireList.add(repertoire);
                     }
-                }
+                }while (i < numberOfPage);
 
             } catch (IOException e) {
                 e.printStackTrace();
