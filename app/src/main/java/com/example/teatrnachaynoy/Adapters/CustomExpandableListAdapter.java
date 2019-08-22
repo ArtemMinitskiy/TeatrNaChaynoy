@@ -18,12 +18,21 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
+    private List<String> linkActors, linkDirectors;
 
-    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle, HashMap<String, List<String>> expandableListDetail) {
+    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle, HashMap<String, List<String>> expandableListDetail, List<String> linkActors, List<String> linkDirectors) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
+        this.linkActors = linkActors;
+        this.linkDirectors = linkDirectors;
     }
+
+    //    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle, HashMap<String, List<String>> expandableListDetail) {
+//        this.context = context;
+//        this.expandableListTitle = expandableListTitle;
+//        this.expandableListDetail = expandableListDetail;
+//    }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {

@@ -40,6 +40,7 @@ public class ActorsActivity extends AppCompatActivity {
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
+    private List<String> listActorsLinks, listDirectorLinks;
     private HashMap<String, List<String>> expandableListDetail = new HashMap<>();
 
     @Override
@@ -81,17 +82,22 @@ public class ActorsActivity extends AppCompatActivity {
                     perfDescription.append(System.getProperty("line.separator"));
 
                 }
+                listActorsLinks = new ArrayList<>();
 
                 List<String> actorsList = new ArrayList<>();
                 Elements h4 = doc.select("h4");
                 String actor = h4.get(0).text();
 //                actorsPerf.append(actor);
 //                actorsPerf.append(System.getProperty("line.separator"));
+
                 Element roles = doc.selectFirst("ul.roles");
                 Elements liRoles = roles.select("li");
                 for (int i = 0; i < liRoles.size(); i++) {
+//                    String a = liRoles.select("a").attr("href");
+//                    Log.i("Log", "Links: " + a);
                     actorsList.add(liRoles.get(i).text());
-                    Log.i("Log", "Name: " + liRoles.get(i).select("a").attr("href"));
+//                    Log.i("Log", "Name: " + liRoles.get(i).select("a").attr("href"));
+                    listActorsLinks.add(liRoles.get(i).select("a").attr("href"));
 //                    actorsPerf.append(liRoles.get(i).text());
 //                    actorsPerf.append(System.getProperty("line.separator"));
                 }
@@ -100,12 +106,14 @@ public class ActorsActivity extends AppCompatActivity {
                 if (h4.size() == 2) {
                     director = h4.get(1).text();
                     List<String> directorsList = new ArrayList<>();
+                    listDirectorLinks = new ArrayList<>();
 //                    actorsPerf.append(director);
 //                    actorsPerf.append(System.getProperty("line.separator"));
                     Element rolesDirector = doc.select("ul.roles").get(1);
                     Elements liDirectorRoles = rolesDirector.select("li");
                     for (int i = 0; i < liDirectorRoles.size(); i++) {
                         directorsList.add(liDirectorRoles.get(i).text());
+                        listDirectorLinks.add(liDirectorRoles.get(i).select("a").attr("href"));
 //                        actorsPerf.append(liDirectorRoles.get(i).text());
 //                        actorsPerf.append(System.getProperty("line.separator"));
                     }
@@ -146,26 +154,38 @@ public class ActorsActivity extends AppCompatActivity {
 
             expandableListView = findViewById(R.id.expandableListView);
             expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
-            expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, expandableListDetail);
+            expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, expandableListDetail, listActorsLinks, listDirectorLinks);
             expandableListView.setAdapter(expandableListAdapter);
 
 //            setListViewHeight(expandableListView, 0);
+//            setListViewHeight(expandableListView, 0, expandableListAdapter);
+//            expandAllLists(expandableListView);
 
             expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                    String title = expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition);
-//                    Log.i("Log", title.substring(0, title.lastIndexOf("\"") + 1));
-                    Intent intent = new Intent(getApplicationContext(), PerformanceDetailActivity.class);
-                    intent.putExtra("href", getPerformanceHref(title.substring(0, title.lastIndexOf("\"") + 1)));
-                    startActivity(intent);
+//                    String title = expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition);
+                    if (groupPosition == 0){
+                        String link = listActorsLinks.get(childPosition);
+                        Intent intent = new Intent(getApplicationContext(), PerformanceDetailActivity.class);
+                        intent.putExtra("href", link);
+                        startActivity(intent);
+                    }
+                    if (groupPosition == 1){
+                        String linkD = listDirectorLinks.get(childPosition);
+                        Intent intent = new Intent(getApplicationContext(), PerformanceDetailActivity.class);
+                        intent.putExtra("href", linkD);
+                        startActivity(intent);
+                    }
+
                     return false;
                 }
             });
             expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
                 public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    setListViewHeight(parent, groupPosition);
+                    setListViewHeight(parent, groupPosition, expandableListAdapter);
+//                    expandAllLists(expandableListView);
                     return false;
                 }
             });
@@ -181,85 +201,85 @@ public class ActorsActivity extends AppCompatActivity {
         return true;
     }
 
-    private String getPerformanceHref(String title) {
-        String href = null;
+//    private String getPerformanceHref(String title) {
+//        String href = null;
+//
+//        switch (title) {
+//            case "\"Тайна семейства Рэйвенскрофт\"":
+//                href = "/show/41";
+//                break;
+//            case "\"Ave Мария Ивановна\"":
+//                href = "/show/6";
+//                break;
+//            case "\"В мире животных\"":
+//                href = "/show/37";
+//                break;
+//            case "\"Гармония\"":
+//                href = "/show/31";
+//                break;
+//            case "\"Главное, когда\"":
+//                href = "/show/22";
+//                break;
+//            case "\"Две дамочки в сторону севера\"":
+//                href = "/show/21";
+//                break;
+//            case "\"Если бы акулы стали людьми\"":
+//                href = "/show/7";
+//                break;
+//            case "\"За стеклом\"":
+//                href = "/show/1";
+//                break;
+//            case "\"Иллюзии\"":
+//                href = "/show/38";
+//                break;
+//            case "\"Маленький Донни, победивший мрак\"":
+//                href = "/show/17";
+//                break;
+//            case "\"Натали\"":
+//                href = "/show/24";
+//                break;
+//            case "\"Наш городок\"":
+//                href = "/show/30";
+//                break;
+//            case "\"Осінь\"":
+//                href = "/show/25";
+//                break;
+//            case "ПРЕМЬЕРА! \"ХХ. Семейная хроника\"":
+//                href = "/show/44";
+//                break;
+//            case "\"С Днем Рождения. сынок!\"":
+//                href = "/show/42";
+//                break;
+//            case "\"Смерть Фирса\"":
+//                href = "/show/28";
+//                break;
+//            case "\"Смешная академия\"":
+//                href = "/show/29";
+//                break;
+//            case "\"Старики\"":
+//                href = "/show/36";
+//                break;
+//            case "\"Стоило?!\"":
+//                href = "/show/43";
+//                break;
+//            case "\"Странный спектакль\"":
+//                href = "/show/39";
+//                break;
+//            case "\"Стриптиз\"":
+//                href = "/show/27";
+//                break;
+//            case "\"Чеховские мотивы\"":
+//                href = "/show/26";
+//                break;
+//            default:
+//                break;
+//        }
+//
+//        return href;
+//    }
 
-        switch (title) {
-            case "\"Тайна семейства Рэйвенскрофт\"":
-                href = "/show/41";
-                break;
-            case "\"Ave Мария Ивановна\"":
-                href = "/show/6";
-                break;
-            case "\"В мире животных\"":
-                href = "/show/37";
-                break;
-            case "\"Гармония\"":
-                href = "/show/31";
-                break;
-            case "\"Главное, когда\"":
-                href = "/show/22";
-                break;
-            case "\"Две дамочки в сторону севера\"":
-                href = "/show/21";
-                break;
-            case "\"Если бы акулы стали людьми\"":
-                href = "/show/7";
-                break;
-            case "\"За стеклом\"":
-                href = "/show/1";
-                break;
-            case "\"Иллюзии\"":
-                href = "/show/38";
-                break;
-            case "\"Маленький Донни, победивший мрак\"":
-                href = "/show/17";
-                break;
-            case "\"Натали\"":
-                href = "/show/24";
-                break;
-            case "\"Наш городок\"":
-                href = "/show/30";
-                break;
-            case "\"Осінь\"":
-                href = "/show/25";
-                break;
-            case "ПРЕМЬЕРА! \"ХХ. Семейная хроника\"":
-                href = "/show/44";
-                break;
-            case "\"С Днем Рождения. сынок!\"":
-                href = "/show/42";
-                break;
-            case "\"Смерть Фирса\"":
-                href = "/show/28";
-                break;
-            case "\"Смешная академия\"":
-                href = "/show/29";
-                break;
-            case "\"Старики\"":
-                href = "/show/36";
-                break;
-            case "\"Стоило?!\"":
-                href = "/show/43";
-                break;
-            case "\"Странный спектакль\"":
-                href = "/show/39";
-                break;
-            case "\"Стриптиз\"":
-                href = "/show/27";
-                break;
-            case "\"Чеховские мотивы\"":
-                href = "/show/26";
-                break;
-            default:
-                break;
-        }
-
-        return href;
-    }
-
-    private void setListViewHeight(ExpandableListView listView, int group) {
-        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
+    private void setListViewHeight(ExpandableListView listView, int group, ExpandableListAdapter listAdapter) {
+//        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
@@ -291,5 +311,14 @@ public class ActorsActivity extends AppCompatActivity {
         params.height = height;
         listView.setLayoutParams(params);
         listView.requestLayout();
+
     }
+
+    public void expandAllLists(ExpandableListView listView){
+        for (int i = 0; i < listView.getExpandableListAdapter().getGroupCount(); i++) {
+            //Expand group
+            listView.expandGroup(i);
+        }
+    }
+
 }

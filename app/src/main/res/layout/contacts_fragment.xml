@@ -160,11 +160,11 @@
 
             <ImageView
                 android:id="@+id/vk_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/vk_logo"
+                android:src="@drawable/vk"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,11 +172,11 @@
 
             <ImageView
                 android:id="@+id/fc_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/fc_logo"
+                android:src="@drawable/fc"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
@@ -185,11 +185,11 @@
 
             <ImageView
                 android:id="@+id/inst_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/inst_logo"
+                android:src="@drawable/inst"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"

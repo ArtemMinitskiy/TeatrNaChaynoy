@@ -55,7 +55,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text='@{(troupe.charecter.length() > 200 ? troupe.charecter.substring(0, 250) : troupe.charecter)  + "..."}'
+                android:text='@{(troupe.charecter.length() > 200 ? troupe.charecter.substring(0, 195) : troupe.charecter)  + "..."}'
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/perf_image"

@@ -24,6 +24,7 @@ import com.example.teatrnachaynoy.Repertoire;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -76,9 +77,7 @@ public class TroupeFragment extends Fragment {
                     for (int j = 0; j < divItem.size(); j++) {
 
                         String imageUrl = divItem.select("img").get(j).attr("src");
-                        String divDesc = divItem.select("div.desc").get(j).text();
-                        String description = divDesc.substring(0, divDesc.lastIndexOf(".")) + ".";
-
+                        Node description = divItem.select("div.desc").get(j).childNode(2);
                         Element name = divItem.select("h3").get(j);
                         String link = name.select("a").get(0).attr("href");
 
@@ -87,7 +86,7 @@ public class TroupeFragment extends Fragment {
 //                        Log.i("Log", "Description: " + description.replace(name.text(), "").trim());
 //                        Log.i("Log", "Link: " + link);
 
-                        actorsInfo = new ActorsInfo(description.replace(name.text(), "").trim(),
+                        actorsInfo = new ActorsInfo(String.valueOf(description),
                                 name.text(),
                                 "http://www.tea-atr.com" + imageUrl,
                                 link);

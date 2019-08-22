@@ -22,6 +22,7 @@ import com.example.teatrnachaynoy.Repertoire;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -76,17 +77,16 @@ public class RepertoireFragment extends Fragment {
 
                         Document docInsideImage = Jsoup.connect("http://www.tea-atr.com" + link).get();
                         Elements image = docInsideImage.select("img.cover");
-                        String divDesc = divItem.select("div.desc").get(j).text();
-                        String description = divDesc.substring(0, divDesc.lastIndexOf(".")) + ".";
+                        Node description = divItem.select("div.desc").get(j).childNode(2);
 
 //                        Log.i("Log", "Image: " + "http://www.tea-atr.com" + image.attr("src"));
 //                        Log.i("Log", "Title: " + title.text());
-//                        Log.i("Log", "Description: " + description.replace(title.text(), "").trim());
+//                        Log.i("Log", "Description: " + description);
 //                        Log.i("Log", "Link: " + link);
 
                         repertoire = new Repertoire("http://www.tea-atr.com" + image.attr("src"),
                                 title.text(),
-                                description.replace(title.text(), "").trim(),
+                                String.valueOf(description),
                                 link);
 
                         repertoireList.add(repertoire);
