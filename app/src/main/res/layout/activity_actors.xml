@@ -10,7 +10,6 @@
             type="com.example.teatrnachaynoy.ActorsInfo" />
     </data>
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,28 +25,38 @@
                 android:id="@+id/actorsImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{actors.image}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleTxt"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_face_black_24dp" />
 
+            <com.github.mmin18.widget.RealtimeBlurView
+                android:id="@+id/blurView"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                app:layout_constraintBottom_toBottomOf="@id/actorsImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:realtimeBlurRadius="10dp"
+                app:realtimeOverlayColor="#60000000" />
+
             <TextView
-                android:id="@+id/titleTxt"
+                android:id="@+id/actorsName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"
                 android:text="@{actors.name}"
-                android:textSize="26sp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="28sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/blurView" />
 
             <TextView
                 android:id="@+id/actorsDescription"
@@ -110,7 +119,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/titleTxt" />
+                app:layout_constraintTop_toTopOf="@+id/actorsName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

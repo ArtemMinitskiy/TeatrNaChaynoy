@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
@@ -68,6 +67,7 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                 Elements p = doc.select("p");
                 Elements div = doc.select("div.persons");
                 Elements director = div.select("li");
+                Elements hrefDirector = director.select("a");
                 Elements ul = div.select("ul");
 
                 Elements divDesc = doc.select("div.desc");
@@ -75,19 +75,20 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                 for (int pDesc = 0; pDesc < desc.size(); pDesc++){
                     perfDescription.append(desc.get(pDesc).text());
                     perfDescription.append(System.getProperty("line.separator"));
-
                 }
 
+                actorsInfo = new ActorsInfo("Режиссёр", hrefDirector.get(0).text(), getImageSrc(hrefDirector.get(0).text()), hrefDirector.attr("href"));
+                actorsInfoList.add(actorsInfo);
                 for (int i = 1; i < ul.size(); i++) {
                     Element ulElem = ul.get(i);
                     Elements li = ulElem.select("li");
 
                     for (int j = 0; j < li.size(); j++) {
-                        Elements a = li.get(j).select("a");
+                        Elements link = li.get(j).select("a");
                         String character = li.get(j).text().split("-")[0];
                         String name = li.get(j).text().split("-")[1];
 
-                        actorsInfo = new ActorsInfo(character.trim(), name.trim(), getImageSrc(name.trim()), a.attr("href"));
+                        actorsInfo = new ActorsInfo(character.trim(), name.trim(), getImageSrc(name.trim()), link.attr("href"));
 
                         actorsInfoList.add(actorsInfo);
 
@@ -98,15 +99,13 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                         "http://tea-atr.com" + image.attr("src"),
                         p.get(2).text(),
                         p.get(3).text(),
-                        String.valueOf(perfDescription),
-                        director.get(0).text()
+                        String.valueOf(perfDescription)
                 );
 
 //                Log.i("Log", "Title: " + title.get(0).text());
 //                Log.i("Log", "Image: " + image.attr("src"));
 //                Log.i("Log", "Genre: " + p.get(2).text());
 //                Log.i("Log", "Duration: " + p.get(3).text());
-//                Log.i("Log", "Director: " + director.get(0).text());
 //                Log.i("Log", "Description: " + divDesc.text());
 
             } catch (IOException e) {

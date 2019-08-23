@@ -37,4 +37,7 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Blur
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
 }

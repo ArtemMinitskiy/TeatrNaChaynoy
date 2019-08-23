@@ -6,15 +6,13 @@ public class Performance {
     private String genre;
     private String duration;
     private String description;
-    private String director;
 
-    public Performance(String title, String image_url, String genre, String duration, String description, String director) {
+    public Performance(String title, String image_url, String genre, String duration, String description) {
         this.title = title;
         this.image_url = image_url;
         this.genre = genre;
         this.duration = duration;
         this.description = description;
-        this.director = director;
     }
 
     public String getTitle() {
@@ -55,14 +53,6 @@ public class Performance {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
     }
 
 }

@@ -22,10 +22,6 @@ import com.example.teatrnachaynoy.R;
 
 public class ContactsFragment extends Fragment {
 
-    private View view;
-    private TextView adressTxt, directorTxt;
-    private ImageView geoLoc, vkImage, fcImage, instImage;
-
     public ContactsFragment() {
     }
 
@@ -33,9 +29,9 @@ public class ContactsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.contacts_fragment, null);
+        View view = inflater.inflate(R.layout.contacts_fragment, null);
 
-        geoLoc = view.findViewById(R.id.geo);
+        ImageView geoLoc = view.findViewById(R.id.geo);
         geoLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +45,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        adressTxt = view.findViewById(R.id.adress);
+        TextView adressTxt = view.findViewById(R.id.adress);
         adressTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +59,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        directorTxt = view.findViewById(R.id.director);
+        TextView directorTxt = view.findViewById(R.id.director);
         directorTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +72,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        vkImage = view.findViewById(R.id.vk_logo);
+        ImageView vkImage = view.findViewById(R.id.vk_logo);
         vkImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +86,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        fcImage = view.findViewById(R.id.fc_logo);
+        ImageView fcImage = view.findViewById(R.id.fc_logo);
         fcImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +100,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        instImage = view.findViewById(R.id.inst_logo);
+        ImageView instImage = view.findViewById(R.id.inst_logo);
         instImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

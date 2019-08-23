@@ -3,6 +3,7 @@ package com.example.teatrnachaynoy.Fragments;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,11 +78,16 @@ public class ScheduleFragment extends Fragment {
 //                    Log.i("Log", "Time-lenght: " + timeLenght.get(0).text());
 //                    Log.i("Log", "Href: " + title.attr("href"));
 
+                    Document docInsideImage = Jsoup.connect("http://www.tea-atr.com" + title.attr("href")).get();
+                    Elements image = docInsideImage.select("img.cover");
+//                    Log.i("Log", "Image: " + "http://www.tea-atr.com" + image.attr("src"));
+
                     schedule = new Schedule(title.get(0).text(),
                             date.get(0).text().substring(0, cols.get(0).text().indexOf(",")),
                             cols.get(2).text(),
                             timeLenght.get(0).text(),
-                            title.attr("href"));
+                            title.attr("href"),
+                            "http://www.tea-atr.com" + image.attr("src"));
 
                     schedulesList.add(schedule);
 
