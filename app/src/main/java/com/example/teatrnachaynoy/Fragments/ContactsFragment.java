@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.teatrnachaynoy.ActorsActivity;
 import com.example.teatrnachaynoy.R;
+import com.example.teatrnachaynoy.Utils;
 
 public class ContactsFragment extends Fragment {
 
@@ -36,7 +37,7 @@ public class ContactsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    Uri uri = Uri.parse("https://www.google.com/maps/place/%D0%A2%D0%B5%D0%B0%D1%82%D1%80+%D0%BD%D0%B0+%D0%A7%D0%B0%D0%B9%D0%BD%D0%BE%D0%B9/@46.4780209,30.7480462,15z/data=!4m5!3m4!1s0x0:0x43aa6c1fb0d64eec!8m2!3d46.4787744!4d30.7496772?hl=ru-RU");
+                    Uri uri = Uri.parse(Utils.GOOGLE_MAPS_URL);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     view.getContext().startActivity(intent);
                 } catch (ActivityNotFoundException e) {
@@ -50,7 +51,7 @@ public class ContactsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    Uri uri = Uri.parse("https://www.google.com/maps/place/%D0%A2%D0%B5%D0%B0%D1%82%D1%80+%D0%BD%D0%B0+%D0%A7%D0%B0%D0%B9%D0%BD%D0%BE%D0%B9/@46.4780209,30.7480462,15z/data=!4m5!3m4!1s0x0:0x43aa6c1fb0d64eec!8m2!3d46.4787744!4d30.7496772?hl=ru-RU");
+                    Uri uri = Uri.parse(Utils.GOOGLE_MAPS_URL);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     view.getContext().startActivity(intent);
                 } catch (ActivityNotFoundException e) {
@@ -66,7 +67,7 @@ public class ContactsFragment extends Fragment {
                 Log.i("Log", "Hello");
                 Intent intent = new Intent(getActivity(), ActorsActivity.class);
                 intent.putExtra("href", "/person/1");
-                intent.putExtra("imageUrl", "http://tea-atr.com/images/u/person/1.jpg?v=1383865774");
+                intent.putExtra("imageUrl", Utils.THEATER_URL + "/images/u/person/1.jpg?v=1383865774");
                 startActivity(intent);
 
             }
@@ -77,7 +78,7 @@ public class ContactsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    Uri uri = Uri.parse("vkontakte.ru/club16711428");
+                    Uri uri = Uri.parse(Utils.VK_URL);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     view.getContext().startActivity(intent);
                 } catch (ActivityNotFoundException e) {
@@ -91,7 +92,7 @@ public class ContactsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    Uri uri = Uri.parse("https://www.facebook.com/teatrnachaynoy");
+                    Uri uri = Uri.parse(Utils.FACEBOOK_URL);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     view.getContext().startActivity(intent);
                 } catch (ActivityNotFoundException e) {
@@ -105,7 +106,7 @@ public class ContactsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    Uri uri = Uri.parse("https://www.instagram.com/tea_atr/");
+                    Uri uri = Uri.parse(Utils.INSTAGRAM_URL);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     view.getContext().startActivity(intent);
                 } catch (ActivityNotFoundException e) {

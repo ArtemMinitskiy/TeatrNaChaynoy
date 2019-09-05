@@ -40,4 +40,7 @@ dependencies {
 
     //Blur
     implementation 'com.github.mmin18:realtimeblurview:1.2.1'
+
+    //Gallary
+    implementation 'com.github.stfalcon:stfalcon-imageviewer:0.1.0'
 }

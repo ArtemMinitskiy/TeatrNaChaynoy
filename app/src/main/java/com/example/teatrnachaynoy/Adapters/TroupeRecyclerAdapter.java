@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teatrnachaynoy.ActorsActivity;
 import com.example.teatrnachaynoy.ActorsInfo;
-import com.example.teatrnachaynoy.PerformanceDetailActivity;
 import com.example.teatrnachaynoy.databinding.TroupeItemBinding;
 
 import java.util.ArrayList;

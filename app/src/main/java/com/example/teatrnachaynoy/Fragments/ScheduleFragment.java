@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teatrnachaynoy.Adapters.ScheduleRecyclerAdapter;
 import com.example.teatrnachaynoy.R;
 import com.example.teatrnachaynoy.Schedule;
+import com.example.teatrnachaynoy.Utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -61,7 +62,7 @@ public class ScheduleFragment extends Fragment {
             Document doc;
             Schedule schedule;
             try {
-                doc = Jsoup.connect("http://tea-atr.com/timetable").get();
+                doc = Jsoup.connect(Utils.THEATER_URL + "/timetable").get();
                 Elements table = doc.select("table");
                 Elements rows = table.select("tr");
 
@@ -78,16 +79,15 @@ public class ScheduleFragment extends Fragment {
 //                    Log.i("Log", "Time-lenght: " + timeLenght.get(0).text());
 //                    Log.i("Log", "Href: " + title.attr("href"));
 
-                    Document docInsideImage = Jsoup.connect("http://www.tea-atr.com" + title.attr("href")).get();
+                    Document docInsideImage = Jsoup.connect(Utils.THEATER_URL + title.attr("href")).get();
                     Elements image = docInsideImage.select("img.cover");
-//                    Log.i("Log", "Image: " + "http://www.tea-atr.com" + image.attr("src"));
 
                     schedule = new Schedule(title.get(0).text(),
                             date.get(0).text().substring(0, cols.get(0).text().indexOf(",")),
                             cols.get(2).text(),
                             timeLenght.get(0).text(),
                             title.attr("href"),
-                            "http://www.tea-atr.com" + image.attr("src"));
+                            Utils.THEATER_URL + image.attr("src"));
 
                     schedulesList.add(schedule);
 

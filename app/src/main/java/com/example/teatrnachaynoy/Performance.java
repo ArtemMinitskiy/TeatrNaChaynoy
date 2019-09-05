@@ -6,13 +6,21 @@ public class Performance {
     private String genre;
     private String duration;
     private String description;
+    private String director;
+    private String director_link;
 
-    public Performance(String title, String image_url, String genre, String duration, String description) {
+    public Performance(String title, String image_url, String genre, String duration, String description, String director, String director_link) {
         this.title = title;
         this.image_url = image_url;
         this.genre = genre;
         this.duration = duration;
         this.description = description;
+        this.director = director;
+        this.director_link = director_link;
+    }
+
+    public Performance(String image_url) {
+        this.image_url = image_url;
     }
 
     public String getTitle() {
@@ -55,4 +63,21 @@ public class Performance {
         this.description = description;
     }
 
+    public String getDirector() {
+        return director;
+    }
+
+    public String getDirector_link() {
+        return director_link;
+    }
+
+    public void setDirector_link(String director_link) {
+        this.director_link = director_link;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+
+
+    }
 }

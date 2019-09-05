@@ -35,6 +35,8 @@
     <string name="web">http://tea-atr.com/</string>
     <string name="email">info@tea-atr.com</string>
     <string name="question_and_order">Справки и заказ билетов</string>
+    <string name="Photos">Фотографии</string>
+    <string name="perf_director">Режиссёр: </string>
 
 
 </resources>

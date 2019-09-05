@@ -72,7 +72,7 @@ public class ActorsActivity extends AppCompatActivity {
             String hrefTxt = intent.getStringExtra("href");
             String imageUrl = intent.getStringExtra("imageUrl");
             try {
-                doc = Jsoup.connect("http://tea-atr.com" + hrefTxt).get();
+                doc = Jsoup.connect(Utils.THEATER_URL + hrefTxt).get();
                 Elements actorsName = doc.select("h2");
 
                 Elements divDesc = doc.select("div.desc");
@@ -200,83 +200,6 @@ public class ActorsActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
-//    private String getPerformanceHref(String title) {
-//        String href = null;
-//
-//        switch (title) {
-//            case "\"Тайна семейства Рэйвенскрофт\"":
-//                href = "/show/41";
-//                break;
-//            case "\"Ave Мария Ивановна\"":
-//                href = "/show/6";
-//                break;
-//            case "\"В мире животных\"":
-//                href = "/show/37";
-//                break;
-//            case "\"Гармония\"":
-//                href = "/show/31";
-//                break;
-//            case "\"Главное, когда\"":
-//                href = "/show/22";
-//                break;
-//            case "\"Две дамочки в сторону севера\"":
-//                href = "/show/21";
-//                break;
-//            case "\"Если бы акулы стали людьми\"":
-//                href = "/show/7";
-//                break;
-//            case "\"За стеклом\"":
-//                href = "/show/1";
-//                break;
-//            case "\"Иллюзии\"":
-//                href = "/show/38";
-//                break;
-//            case "\"Маленький Донни, победивший мрак\"":
-//                href = "/show/17";
-//                break;
-//            case "\"Натали\"":
-//                href = "/show/24";
-//                break;
-//            case "\"Наш городок\"":
-//                href = "/show/30";
-//                break;
-//            case "\"Осінь\"":
-//                href = "/show/25";
-//                break;
-//            case "ПРЕМЬЕРА! \"ХХ. Семейная хроника\"":
-//                href = "/show/44";
-//                break;
-//            case "\"С Днем Рождения. сынок!\"":
-//                href = "/show/42";
-//                break;
-//            case "\"Смерть Фирса\"":
-//                href = "/show/28";
-//                break;
-//            case "\"Смешная академия\"":
-//                href = "/show/29";
-//                break;
-//            case "\"Старики\"":
-//                href = "/show/36";
-//                break;
-//            case "\"Стоило?!\"":
-//                href = "/show/43";
-//                break;
-//            case "\"Странный спектакль\"":
-//                href = "/show/39";
-//                break;
-//            case "\"Стриптиз\"":
-//                href = "/show/27";
-//                break;
-//            case "\"Чеховские мотивы\"":
-//                href = "/show/26";
-//                break;
-//            default:
-//                break;
-//        }
-//
-//        return href;
-//    }
 
     private void setListViewHeight(ExpandableListView listView, int group, ExpandableListAdapter listAdapter) {
 //        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();

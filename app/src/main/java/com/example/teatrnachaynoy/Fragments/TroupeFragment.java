@@ -3,7 +3,6 @@ package com.example.teatrnachaynoy.Fragments;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teatrnachaynoy.ActorsInfo;
-import com.example.teatrnachaynoy.Adapters.RepertoireRecyclerAdapter;
 import com.example.teatrnachaynoy.Adapters.TroupeRecyclerAdapter;
 import com.example.teatrnachaynoy.R;
-import com.example.teatrnachaynoy.Repertoire;
+import com.example.teatrnachaynoy.Utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -61,11 +59,11 @@ public class TroupeFragment extends Fragment {
             Document doc;
             ActorsInfo actorsInfo;
             try {
-                doc = Jsoup.connect("http://tea-atr.com/person").get();
+                doc = Jsoup.connect(Utils.THEATER_URL + "/person").get();
                 Elements pageUrl = doc.select("li.last");
                 String hrefLastPage = pageUrl.select("a").attr("href");
                 int numberOfPage = Integer.parseInt(hrefLastPage.substring(hrefLastPage.lastIndexOf("=") + 1));
-                String url = "http://tea-atr.com/person?page=";
+                String url = Utils.THEATER_URL + "/person?page=";
                 int i = 0;
 
                 do {
@@ -88,7 +86,7 @@ public class TroupeFragment extends Fragment {
 
                         actorsInfo = new ActorsInfo(String.valueOf(description),
                                 name.text(),
-                                "http://www.tea-atr.com" + imageUrl,
+                                Utils.THEATER_URL + imageUrl,
                                 link);
 
                         actorsInfoArrayList.add(actorsInfo);

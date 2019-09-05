@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teatrnachaynoy.Adapters.RepertoireRecyclerAdapter;
 import com.example.teatrnachaynoy.R;
 import com.example.teatrnachaynoy.Repertoire;
+import com.example.teatrnachaynoy.Utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -59,11 +60,11 @@ public class RepertoireFragment extends Fragment {
             Document doc;
             Repertoire repertoire;
             try {
-                doc = Jsoup.connect("http://www.tea-atr.com/show").get();
+                doc = Jsoup.connect(Utils.THEATER_URL + "/show").get();
                 Elements pageUrl = doc.select("li.last");
                 String hrefLastPage = pageUrl.select("a").attr("href");
                 int numberOfPage = Integer.parseInt(hrefLastPage.substring(hrefLastPage.lastIndexOf("=") + 1));
-                String url = "http://www.tea-atr.com/show?page=";
+                String url = Utils.THEATER_URL + "/show?page=";
                 int i = 0;
 
                 do {
@@ -75,7 +76,7 @@ public class RepertoireFragment extends Fragment {
                         Element title = divItem.select("h3").get(j);
                         String link = title.select("a").get(0).attr("href");
 
-                        Document docInsideImage = Jsoup.connect("http://www.tea-atr.com" + link).get();
+                        Document docInsideImage = Jsoup.connect(Utils.THEATER_URL + link).get();
                         Elements image = docInsideImage.select("img.cover");
                         Node description = divItem.select("div.desc").get(j).childNode(2);
 
@@ -84,7 +85,7 @@ public class RepertoireFragment extends Fragment {
 //                        Log.i("Log", "Description: " + description);
 //                        Log.i("Log", "Link: " + link);
 
-                        repertoire = new Repertoire("http://www.tea-atr.com" + image.attr("src"),
+                        repertoire = new Repertoire(Utils.THEATER_URL + image.attr("src"),
                                 title.text(),
                                 String.valueOf(description),
                                 link);
