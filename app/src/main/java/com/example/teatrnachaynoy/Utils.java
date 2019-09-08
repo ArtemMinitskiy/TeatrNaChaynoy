@@ -102,4 +102,6 @@ public class Utils {
     public static void loadActorsImage(ImageView imageView, String imageUrl) {
         Picasso.get().load(imageUrl).placeholder(R.drawable.ic_face_black_24dp).into(imageView);
     }
+
+
 }

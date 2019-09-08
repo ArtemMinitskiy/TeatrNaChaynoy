@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.teatrnachaynoy.Adapters.CustomExpandableListAdapter;
@@ -36,6 +37,7 @@ import java.util.Objects;
 public class ActorsActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
+    private TextView actorsDesc;
     private ActivityActorsBinding binding;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
@@ -59,6 +61,7 @@ public class ActorsActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar = findViewById(R.id.progressBar);
+            actorsDesc = findViewById(R.id.actorsDescription);
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
         }
@@ -66,8 +69,7 @@ public class ActorsActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             Document doc;
-            StringBuffer perfDescription = new StringBuffer();
-//            StringBuffer actorsPerf = new StringBuffer();
+            final StringBuffer actorsDescription = new StringBuffer();
             Intent intent = getIntent();
             String hrefTxt = intent.getStringExtra("href");
             String imageUrl = intent.getStringExtra("imageUrl");
@@ -78,17 +80,22 @@ public class ActorsActivity extends AppCompatActivity {
                 Elements divDesc = doc.select("div.desc");
                 Elements desc = divDesc.select("p");
                 for (int pDesc = 0; pDesc < desc.size(); pDesc++) {
-                    perfDescription.append(desc.get(pDesc).text());
-                    perfDescription.append(System.getProperty("line.separator"));
+                    actorsDescription.append(desc.get(pDesc));
+//                    perfDescription.append(desc.get(pDesc).text());
+//                    perfDescription.append(System.getProperty("line.separator"));
 
                 }
+                actorsDesc.post(new Runnable() {
+                    public void run() {
+                        MakeLinksClicable.textEditor(actorsDesc, String.valueOf(actorsDescription));
+                    }
+                });
+
                 listActorsLinks = new ArrayList<>();
 
                 List<String> actorsList = new ArrayList<>();
                 Elements h4 = doc.select("h4");
                 String actor = h4.get(0).text();
-//                actorsPerf.append(actor);
-//                actorsPerf.append(System.getProperty("line.separator"));
 
                 Element roles = doc.selectFirst("ul.roles");
                 Elements liRoles = roles.select("li");
@@ -98,8 +105,6 @@ public class ActorsActivity extends AppCompatActivity {
                     actorsList.add(liRoles.get(i).text());
 //                    Log.i("Log", "Name: " + liRoles.get(i).select("a").attr("href"));
                     listActorsLinks.add(liRoles.get(i).select("a").attr("href"));
-//                    actorsPerf.append(liRoles.get(i).text());
-//                    actorsPerf.append(System.getProperty("line.separator"));
                 }
 
                 String director;
@@ -107,33 +112,28 @@ public class ActorsActivity extends AppCompatActivity {
                     director = h4.get(1).text();
                     List<String> directorsList = new ArrayList<>();
                     listDirectorLinks = new ArrayList<>();
-//                    actorsPerf.append(director);
-//                    actorsPerf.append(System.getProperty("line.separator"));
                     Element rolesDirector = doc.select("ul.roles").get(1);
                     Elements liDirectorRoles = rolesDirector.select("li");
                     for (int i = 0; i < liDirectorRoles.size(); i++) {
                         directorsList.add(liDirectorRoles.get(i).text());
                         listDirectorLinks.add(liDirectorRoles.get(i).select("a").attr("href"));
-//                        actorsPerf.append(liDirectorRoles.get(i).text());
-//                        actorsPerf.append(System.getProperty("line.separator"));
                     }
                     expandableListDetail.put(director, directorsList);
                 }
                 expandableListDetail.put(actor, actorsList);
                 actorsInfo = new ActorsInfo(actorsName.text(),
                         imageUrl,
-                        String.valueOf(perfDescription),
-//                        "",
                         "",
-//                        String.valueOf(actorsPerf),
+//                        String.valueOf(perfDescription),
+                        "",
                         ""
 
                 );
 
 //                Log.i("Log", "Name: " + actorsName.text());
 //                Log.i("Log", "Image: " + imageUrl);
-////                Log.i("Log", "Genre: " + p.get(2).text());
-////                Log.i("Log", "Duration: " + p.get(3).text());
+//                Log.i("Log", "Genre: " + p.get(2).text());
+//                Log.i("Log", "Duration: " + p.get(3).text());
 //                Log.i("Log", "Actors: " + actorsPerf + " Director: " + director);
 //                Log.i("Log", "Description: " + perfDescription);
 

@@ -31,13 +31,16 @@ import static com.example.teatrnachaynoy.Utils.getImageSrc;
 public class PerformanceDetailActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
+    private TextView perfDesc;
     private ActivityPerformanceDetailBinding binding;
+    private String hrefTxt;
     private ArrayList<ActorsInfo> actorsInfoList = new ArrayList<>();
     private ArrayList<Performance> photosList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hrefTxt = getIntent().getStringExtra("href");
         binding = DataBindingUtil.setContentView(this, R.layout.activity_performance_detail);
         new PerformanceHtmlParserHelper().execute();
     }
@@ -47,10 +50,12 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         Performance performance;
         ActorsInfo actorsInfo;
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar = findViewById(R.id.progrss_bar);
+            perfDesc = findViewById(R.id.perf_description);
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
         }
@@ -58,9 +63,8 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             Document doc;
-            StringBuffer perfDescription = new StringBuffer();
-            Intent intent = getIntent();
-            String hrefTxt = intent.getStringExtra("href");
+            final StringBuffer perfDescription = new StringBuffer();
+
             try {
                 doc = Jsoup.connect(Utils.THEATER_URL + hrefTxt).get();
                 Elements title = doc.select("h2");
@@ -73,21 +77,26 @@ public class PerformanceDetailActivity extends AppCompatActivity {
 
                 //Performance Photos
                 Elements a_photos = doc.select("a.fancybox-thumb");
-                for (int i = 0; i < a_photos.size(); i++){
-                    performance = new Performance(Utils.THEATER_URL +  a_photos.get(i).attr("href"));
+                for (int i = 0; i < a_photos.size(); i++) {
+                    performance = new Performance(Utils.THEATER_URL + a_photos.get(i).attr("href"));
                     photosList.add(performance);
-//                    Log.i("Log", "doInBackground: " + "http://tea-atr.com" + a_photos.get(i).attr("href"));
                 }
-
 
                 //Performance Description
                 Elements divDesc = doc.select("div.desc");
                 Elements desc = divDesc.select("p");
-                for (int pDesc = 0; pDesc < desc.size(); pDesc++){
-
-                    perfDescription.append("   ").append(desc.get(pDesc).text());
-                    perfDescription.append(System.getProperty("line.separator"));
+                for (int pDesc = 0; pDesc < desc.size(); pDesc++) {
+//                    Log.i("Log", "Performance: " + desc.get(pDesc));
+//                    perfDescription.append("   ").append(desc.get(pDesc).text());
+//                    perfDescription.append(System.getProperty("line.separator"));
+                    perfDescription.append(desc.get(pDesc));
                 }
+
+                perfDesc.post(new Runnable() {
+                    public void run() {
+                        MakeLinksClicable.textEditor(perfDesc, String.valueOf(perfDescription));
+                    }
+                });
 
 //                actorsInfo = new ActorsInfo("Режиссёр", hrefDirector.get(0).text(), getImageSrc(hrefDirector.get(0).text()), hrefDirector.attr("href"));
 //                actorsInfoList.add(actorsInfo);
@@ -113,7 +122,8 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                         Utils.THEATER_URL + image.attr("src"),
                         p.get(2).text(),
                         p.get(3).text(),
-                        String.valueOf(perfDescription),
+                        "",
+//                        String.valueOf(perfDescription),
                         hrefDirector.get(0).text(),
                         hrefDirector.attr("href"));
 
@@ -169,15 +179,11 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         }
     }
 
-//    public static void loadGallery(Context context, ArrayList<Performance> photosList, int position){
-//        new ImageViewer.Builder(context, photosList).setStartPosition(position).show();
-//
-//    }
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
 
 }
