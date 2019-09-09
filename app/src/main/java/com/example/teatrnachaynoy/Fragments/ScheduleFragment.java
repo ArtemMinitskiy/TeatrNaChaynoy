@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.teatrnachaynoy.Adapters.ScheduleRecyclerAdapter;
 import com.example.teatrnachaynoy.R;
@@ -28,10 +29,11 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ScheduleFragment extends Fragment {
+public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private ProgressBar progressBar;
     private View view;
+    private SwipeRefreshLayout swipeRefresh;
 
     public ScheduleFragment() {
     }
@@ -41,8 +43,22 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recycler_fragment,null);
+        swipeLayout();
         new ScheduleHtmlParserHelper().execute();
         return view;
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefresh.setRefreshing(false);
+        new ScheduleHtmlParserHelper().execute();
+
+    }
+
+    private void swipeLayout(){
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent, R.color.colorGrey);
+        swipeRefresh.setOnRefreshListener(this);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -115,5 +131,4 @@ public class ScheduleFragment extends Fragment {
 
         }
     }
-
 }
