@@ -2,25 +2,19 @@ package com.example.teatrnachaynoy;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.teatrnachaynoy.Adapters.CustomExpandableListAdapter;
-import com.example.teatrnachaynoy.Adapters.PerformanceActorsAdapter;
 import com.example.teatrnachaynoy.databinding.ActivityActorsBinding;
 
 import org.jsoup.Jsoup;

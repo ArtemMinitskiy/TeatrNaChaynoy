@@ -37,7 +37,7 @@ public class TroupeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.recycler_fragment, null);
+        view = inflater.inflate(R.layout.nonswipe_recycler_fragment, null);
         new TroupeHtmlParserHelper().execute();
         return view;
     }
@@ -109,8 +109,8 @@ public class TroupeFragment extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
 
             RecyclerView.Adapter adapter = new TroupeRecyclerAdapter(actorsInfoArrayList);
-            adapter.notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
+            Utils.recyclerAnimated(recyclerView, adapter, getContext());
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }

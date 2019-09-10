@@ -3,7 +3,6 @@ package com.example.teatrnachaynoy.Fragments;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ public class RepertoireFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.recycler_fragment, null);
+        view = inflater.inflate(R.layout.nonswipe_recycler_fragment, null);
         new RepertoireHtmlParserHelper().execute();
         return view;
     }
@@ -110,8 +109,8 @@ public class RepertoireFragment extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
 
             RecyclerView.Adapter adapter = new RepertoireRecyclerAdapter(repertoireList);
-            adapter.notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
+            Utils.recyclerAnimated(recyclerView, adapter, getContext());
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }

@@ -3,7 +3,6 @@ package com.example.teatrnachaynoy.Fragments;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,8 +124,10 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
             recyclerView.setLayoutManager(layoutManager);
 
             RecyclerView.Adapter adapter = new ScheduleRecyclerAdapter(schedulesList);
-            adapter.notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
+            //Animation adapter
+            Utils.recyclerAnimated(recyclerView, adapter, getContext());
+
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }

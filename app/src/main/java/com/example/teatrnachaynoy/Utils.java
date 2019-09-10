@@ -1,9 +1,14 @@
 package com.example.teatrnachaynoy;
 
+import android.content.Context;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teatrnachaynoy.R;
 import com.squareup.picasso.Picasso;
 
 public class Utils {
@@ -95,13 +100,19 @@ public class Utils {
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView imageView, String imageUrl) {
-        Picasso.get().load(imageUrl).placeholder(R.drawable.ic_theater_logo).into(imageView);
+        Picasso.get().load(imageUrl).into(imageView);
     }
 
     @BindingAdapter({"imageActorsUrl"})
     public static void loadActorsImage(ImageView imageView, String imageUrl) {
-        Picasso.get().load(imageUrl).placeholder(R.drawable.ic_face_black_24dp).into(imageView);
+        Picasso.get().load(imageUrl).into(imageView);
     }
 
+    public static void recyclerAnimated(RecyclerView recyclerView, RecyclerView.Adapter adapter, Context context){
+        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_right);
+        recyclerView.setLayoutAnimation(controller);
+        adapter.notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
 
 }

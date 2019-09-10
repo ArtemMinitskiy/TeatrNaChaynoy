@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.databinding.BindingAdapter;
-
 public class MakeLinksClicable {
     private final static String LOG = MakeLinksClicable.class.getSimpleName();
 
