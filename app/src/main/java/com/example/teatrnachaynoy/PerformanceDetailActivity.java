@@ -1,10 +1,8 @@
 package com.example.teatrnachaynoy;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,7 +29,6 @@ import static com.example.teatrnachaynoy.Utils.getImageSrc;
 public class PerformanceDetailActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
-    private TextView perfDesc;
     private ActivityPerformanceDetailBinding binding;
     private String hrefTxt;
     private ArrayList<ActorsInfo> actorsInfoList = new ArrayList<>();
@@ -55,7 +52,6 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar = findViewById(R.id.progrss_bar);
-            perfDesc = findViewById(R.id.perf_description);
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
         }
@@ -92,12 +88,6 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                     perfDescription.append(desc.get(pDesc));
                 }
 
-                perfDesc.post(new Runnable() {
-                    public void run() {
-                        MakeLinksClicable.textEditor(perfDesc, String.valueOf(perfDescription));
-                    }
-                });
-
 //                actorsInfo = new ActorsInfo("Режиссёр", hrefDirector.get(0).text(), getImageSrc(hrefDirector.get(0).text()), hrefDirector.attr("href"));
 //                actorsInfoList.add(actorsInfo);
 
@@ -122,8 +112,8 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                         Utils.THEATER_URL + image.attr("src"),
                         p.get(2).text(),
                         p.get(3).text(),
-                        "",
-//                        String.valueOf(perfDescription),
+//                        "",
+                        String.valueOf(perfDescription),
                         hrefDirector.get(0).text(),
                         hrefDirector.attr("href"));
 
@@ -149,16 +139,10 @@ public class PerformanceDetailActivity extends AppCompatActivity {
 
             RecyclerView recyclerActorsView = findViewById(R.id.perf_actors);
             RecyclerView recyclerPhotosView = findViewById(R.id.perf_photos);
-            TextView directorName = findViewById(R.id.directorName);
-            directorName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ActorsActivity.class);
-                    intent.putExtra("href", performance.getDirector_link());
-                    intent.putExtra("imageUrl", getImageSrc(performance.getDirector().trim()));
-                    view.getContext().startActivity(intent);
-                }
-            });
+
+            final TextView perfDesc = findViewById(R.id.perf_description);
+            perfDesc.post(() -> MakeLinksClicable.textEditor(perfDesc, performance.getDescription()));
+
             LinearLayoutManager actrosLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
             recyclerActorsView.setHasFixedSize(true);

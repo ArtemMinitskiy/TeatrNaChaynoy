@@ -8,12 +8,10 @@ import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 public class MakeLinksClicable {
-    private final static String LOG = MakeLinksClicable.class.getSimpleName();
 
     public static class CustomerTextClick extends ClickableSpan {
         String mUrl;
@@ -24,8 +22,6 @@ public class MakeLinksClicable {
 
         @Override
         public void onClick(View widget) {
-            Log.i(LOG, "url clicked: " + this.mUrl);
-
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(mUrl));
             widget.getContext().startActivity(i);
@@ -40,8 +36,7 @@ public class MakeLinksClicable {
         for (URLSpan url : urls) {
             style.removeSpan(url);
             MakeLinksClicable.CustomerTextClick click = new MakeLinksClicable.CustomerTextClick(url.getURL());
-            style.setSpan(click, sp.getSpanStart(url), sp.getSpanEnd(url),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            style.setSpan(click, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         return style;

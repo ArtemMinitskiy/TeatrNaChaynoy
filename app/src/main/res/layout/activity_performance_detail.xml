@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable name="performance" type="com.example.teatrnachaynoy.Performance" />
-        <variable name="text" type="com.example.teatrnachaynoy.MakeLinksClicable" />
     </data>
 
     <ScrollView
@@ -72,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:text='@{performance.title}'
-                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="22sp"
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="@id/blurView"
                     app:layout_constraintEnd_toEndOf="@id/blurView"
@@ -163,12 +161,14 @@
                     android:id="@+id/directorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    app:director="@{performance.director}"
+                    app:link="@{performance.director_link}"
                     android:text='@{performance.director}'
-                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/director"

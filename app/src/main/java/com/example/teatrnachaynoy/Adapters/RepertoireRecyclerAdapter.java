@@ -35,14 +35,11 @@ public class RepertoireRecyclerAdapter extends RecyclerView.Adapter<RepertoireRe
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Repertoire repertoire = repertoireArrayList.get(position);
         holder.binding.setRepertoire(repertoire);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PerformanceDetailActivity.class);
-                intent.putExtra("href", repertoire.getLink());
-                view.getContext().startActivity(intent);
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), PerformanceDetailActivity.class);
+            intent.putExtra("href", repertoire.getLink());
+            view.getContext().startActivity(intent);
 
-            }
         });
     }
 

@@ -3,7 +3,6 @@ package com.example.teatrnachaynoy.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -14,7 +13,6 @@ import com.example.teatrnachaynoy.R;
 import com.example.teatrnachaynoy.databinding.PerfPhotosItemBinding;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.imageviewer.StfalconImageViewer;
-import com.stfalcon.imageviewer.loader.ImageLoader;
 
 import java.util.ArrayList;
 
@@ -39,17 +37,14 @@ public class PerformancePhotosAdapter extends RecyclerView.Adapter<PerformancePh
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final Performance photos = photosList.get(position);
         holder.binding.setPerformance(photos);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new StfalconImageViewer.Builder<>(view.getContext(), photosList, new ImageLoader<Performance>() {
-                    @Override
-                    public void loadImage(ImageView imageView, Performance image) {
-                        Picasso.get().load(image.getImage_url()).placeholder(R.drawable.ic_theater_logo).into(imageView);
-                    }
-                }).withStartPosition(position).show();
-            }
-        });
+        holder.itemView.setOnClickListener(view ->
+                new StfalconImageViewer.Builder<>(view.getContext(), photosList, (imageView, image) ->
+                        Picasso.get()
+                                .load(image.getImage_url())
+                                .placeholder(R.drawable.ic_theater_logo)
+                                .into(imageView))
+                        .withStartPosition(position)
+                        .show());
 
     }
 

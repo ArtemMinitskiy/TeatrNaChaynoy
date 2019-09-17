@@ -3,13 +3,8 @@ package com.example.teatrnachaynoy;
 import android.content.Context;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageView;
 
-import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.teatrnachaynoy.R;
-import com.squareup.picasso.Picasso;
 
 public class Utils {
     public final static String THEATER_URL = "http://tea-atr.com";
@@ -96,16 +91,6 @@ public class Utils {
         }
 
         return src;
-    }
-
-    @BindingAdapter({"imageUrl"})
-    public static void loadImage(ImageView imageView, String imageUrl) {
-        Picasso.get().load(imageUrl).into(imageView);
-    }
-
-    @BindingAdapter({"imageActorsUrl"})
-    public static void loadActorsImage(ImageView imageView, String imageUrl) {
-        Picasso.get().load(imageUrl).into(imageView);
     }
 
     public static void recyclerAnimated(RecyclerView recyclerView, RecyclerView.Adapter adapter, Context context){

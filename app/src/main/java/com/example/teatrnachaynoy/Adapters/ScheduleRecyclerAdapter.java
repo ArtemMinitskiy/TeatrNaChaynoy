@@ -35,14 +35,11 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Schedule schedule = scheduleList.get(position);
         holder.binding.setSchedule(schedule);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PerformanceDetailActivity.class);
-                intent.putExtra("href", schedule.getLink());
-                view.getContext().startActivity(intent);
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), PerformanceDetailActivity.class);
+            intent.putExtra("href", schedule.getLink());
+            view.getContext().startActivity(intent);
 
-            }
         });
     }
 

@@ -33,9 +33,7 @@ public class ActorsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView actorsDesc;
     private ActivityActorsBinding binding;
-    private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
-    private List<String> expandableListTitle;
     private List<String> listActorsLinks, listDirectorLinks;
     private HashMap<String, List<String>> expandableListDetail = new HashMap<>();
 
@@ -146,8 +144,8 @@ public class ActorsActivity extends AppCompatActivity {
 
             binding.setActors(actorsInfo);
 
-            expandableListView = findViewById(R.id.expandableListView);
-            expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+            ExpandableListView expandableListView = findViewById(R.id.expandableListView);
+            List<String> expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
             expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, expandableListDetail, listActorsLinks, listDirectorLinks);
             expandableListView.setAdapter(expandableListAdapter);
 
@@ -175,13 +173,10 @@ public class ActorsActivity extends AppCompatActivity {
                     return false;
                 }
             });
-            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    setListViewHeight(parent, groupPosition, expandableListAdapter);
+            expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
+                setListViewHeight(parent, groupPosition, expandableListAdapter);
 //                    expandAllLists(expandableListView);
-                    return false;
-                }
+                return false;
             });
 
             progressBar.setVisibility(ProgressBar.INVISIBLE);

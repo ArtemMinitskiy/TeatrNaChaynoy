@@ -35,15 +35,12 @@ public class PerformanceActorsAdapter extends RecyclerView.Adapter<PerformanceAc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ActorsInfo actorsInfo = actorsInfoList.get(position);
         holder.binding.setActorsInfo(actorsInfo);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActorsActivity.class);
-                intent.putExtra("href", actorsInfo.getLink());
-                intent.putExtra("imageUrl", actorsInfo.getImage());
-                view.getContext().startActivity(intent);
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ActorsActivity.class);
+            intent.putExtra("href", actorsInfo.getLink());
+            intent.putExtra("imageUrl", actorsInfo.getImage());
+            view.getContext().startActivity(intent);
 
-            }
         });
     }
 
@@ -60,6 +57,5 @@ public class PerformanceActorsAdapter extends RecyclerView.Adapter<PerformanceAc
             binding = DataBindingUtil.bind(itemView);
 
         }
-
     }
 }
