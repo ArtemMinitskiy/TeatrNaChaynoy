@@ -1,6 +1,9 @@
 package com.example.teatrnachaynoy;
 
-public class Schedule {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Schedule implements Parcelable {
     private String title;
     private String date;
     private String time_and_price;
@@ -64,4 +67,41 @@ public class Schedule {
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(this.title);
+        parcel.writeString(this.date);
+        parcel.writeString(this.time_and_price);
+        parcel.writeString(this.time_lenght);
+        parcel.writeString(this.link);
+        parcel.writeString(this.image_url);
+    }
+
+    protected Schedule(Parcel in) {
+        this.title = in.readString();
+        this.date = in.readString();
+        this.time_and_price = in.readString();
+        this.time_lenght = in.readString();
+        this.link = in.readString();
+        this.image_url = in.readString();
+
+    }
+
+    public static final Parcelable.Creator<Schedule> CREATOR = new Parcelable.Creator<Schedule>() {
+        @Override
+        public Schedule createFromParcel(Parcel source) {
+            return new Schedule(source);
+        }
+
+        @Override
+        public Schedule[] newArray(int size) {
+            return new Schedule[size];
+        }
+    };
 }

@@ -33,17 +33,20 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
     private ProgressBar progressBar;
     private View view;
     private SwipeRefreshLayout swipeRefresh;
+    private ArrayList<Schedule> scheduleList;
 
-    public ScheduleFragment() {
+    public ScheduleFragment(ArrayList<Schedule> schedule) {
+        this.scheduleList = schedule;
     }
 
     @SuppressLint("InflateParams")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.recycler_fragment,null);
+        view = inflater.inflate(R.layout.recycler_fragment, null);
+        progressBar = view.findViewById(R.id.progressBar);
         swipeLayout();
-        new ScheduleHtmlParserHelper().execute();
+        initRecycler(scheduleList);
         return view;
     }
 
@@ -54,7 +57,21 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     }
 
-    private void swipeLayout(){
+    private void initRecycler(ArrayList<Schedule> scheduleList) {
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        RecyclerView.Adapter adapter = new ScheduleRecyclerAdapter(scheduleList);
+        recyclerView.setAdapter(adapter);
+        //Animation adapter
+        Utils.recyclerAnimated(recyclerView, adapter, getContext());
+
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
+    }
+
+    private void swipeLayout() {
         swipeRefresh = view.findViewById(R.id.swipeRefresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent, R.color.colorGrey);
         swipeRefresh.setOnRefreshListener(this);
@@ -67,7 +84,6 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar = view.findViewById(R.id.progressBar);
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
         }
@@ -118,17 +134,7 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-
-            RecyclerView.Adapter adapter = new ScheduleRecyclerAdapter(schedulesList);
-            recyclerView.setAdapter(adapter);
-            //Animation adapter
-            Utils.recyclerAnimated(recyclerView, adapter, getContext());
-
-            progressBar.setVisibility(ProgressBar.INVISIBLE);
+            initRecycler(schedulesList);
 
         }
     }

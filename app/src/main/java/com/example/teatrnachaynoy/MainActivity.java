@@ -1,6 +1,7 @@
 package com.example.teatrnachaynoy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,12 +27,16 @@ import com.example.teatrnachaynoy.Fragments.ScheduleFragment;
 import com.example.teatrnachaynoy.Fragments.TroupeFragment;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+
+    private ArrayList<Schedule> scheduleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +46,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
+        Intent intent = getIntent();
+        scheduleList = intent.getParcelableArrayListExtra("Schedule");
+
         isOnline(this);
-        setView();
+        setView(scheduleList);
 
     }
 
-    private void setView() {
-        fragmentTransaction.replace(R.id.containerView, new ScheduleFragment()).commit();
+    private void setView(ArrayList<Schedule> scheduleList) {
+        fragmentTransaction.replace(R.id.containerView, new ScheduleFragment(scheduleList)).commit();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (item.getItemId()) {
             case R.id.schedule:
-                fragmentTransaction.replace(R.id.containerView, new ScheduleFragment()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerView, new ScheduleFragment(scheduleList)).addToBackStack(null).commit();
                 break;
             case R.id.repertoire:
                 fragmentTransaction.replace(R.id.containerView, new RepertoireFragment()).addToBackStack(null).commit();
