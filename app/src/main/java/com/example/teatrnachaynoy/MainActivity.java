@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -119,7 +121,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;
         }
-        Toast.makeText(this, "Отсутствует подключние к интернету", Toast.LENGTH_LONG).show();
+        View toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setView(toastView);
+        toast.setDuration(Toast.LENGTH_SHORT);
+//        toast.setGravity(Gravity.BOTTOM, 0,0);
+        toast.show();
         return false;
     }
 }

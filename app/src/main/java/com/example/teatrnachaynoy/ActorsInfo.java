@@ -4,24 +4,15 @@ public class ActorsInfo {
     private String name;
     private String charecter;
     private String description;
-    private String partOfPerf;
     private String image;
     private String link;
 
     public ActorsInfo() {
     }
 
-    public ActorsInfo(String name, String link) {
+    public ActorsInfo(String name, String image) {
         this.name = name;
-        this.link = link;
-    }
-
-    public ActorsInfo(String name, String image, String description, String partOfPerf, String link) {
-        this.name = name;
-        this.description = description;
-        this.partOfPerf = partOfPerf;
         this.image = image;
-        this.link = link;
     }
 
     public ActorsInfo(String charecter, String name, String image, String link) {
@@ -71,11 +62,4 @@ public class ActorsInfo {
         this.link = link;
     }
 
-    public String getPartOfPerf() {
-        return partOfPerf;
-    }
-
-    public void setPartOfPerf(String partOfPerf) {
-        this.partOfPerf = partOfPerf;
-    }
 }

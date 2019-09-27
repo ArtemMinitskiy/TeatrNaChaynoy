@@ -23,7 +23,7 @@
 
     <string name="workOnPerf">Над спектаклем работали</string>
     <string name="actors">Актеры</string>
-    <string name="director">Руководитель театра</string>
+    <string name="theaterDirector">Руководитель театра</string>
     <string name="directorName">Александр Онищенко</string>
     <string name="actors_name">Actors Name</string>
     <string name="characters_name">Characters Name</string>
@@ -37,6 +37,9 @@
     <string name="question_and_order">Справки и заказ билетов</string>
     <string name="Photos">Фотографии</string>
     <string name="perf_director">Режиссёр: </string>
+    <string name="actor">Актер</string>
+    <string name="director">Режиссёр</string>
+    <string name="dontConnect">Отсутствует подключние к интернету</string>
 
 
 </resources>

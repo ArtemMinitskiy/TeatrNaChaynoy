@@ -39,6 +39,8 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
         this.scheduleList = schedule;
     }
 
+    public  ScheduleFragment(){}
+
     @SuppressLint("InflateParams")
     @Nullable
     @Override

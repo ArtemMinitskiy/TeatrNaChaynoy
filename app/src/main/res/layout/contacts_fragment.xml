@@ -107,7 +107,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="4dp"
                 android:gravity="center"
-                android:text="@string/director"
+                android:text="@string/theaterDirector"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:textStyle="bold"

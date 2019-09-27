@@ -9,12 +9,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.teatrnachaynoy.Adapters.CustomExpandableListAdapter;
 import com.example.teatrnachaynoy.databinding.ActivityActorsBinding;
 
 import org.jsoup.Jsoup;
@@ -24,18 +24,17 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class ActorsActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
-    private TextView actorsDesc;
+    private TextView actorsDesc, director;
     private ActivityActorsBinding binding;
-    private ExpandableListAdapter expandableListAdapter;
     private List<String> listActorsLinks, listDirectorLinks;
-    private HashMap<String, List<String>> expandableListDetail = new HashMap<>();
+    private ListView listViewActors, listViewDirector;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +47,19 @@ public class ActorsActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private class PerformanceHtmlParserHelper extends AsyncTask<Void, Void, Void> {
         ActorsInfo actorsInfo;
+        private ArrayList<String> listActors, listDirector;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar = findViewById(R.id.progressBar);
             actorsDesc = findViewById(R.id.actorsDescription);
+            listViewActors = findViewById(R.id.listActors);
+            listViewDirector = findViewById(R.id.listDirector);
+            director = findViewById(R.id.directorTitle);
+            scrollView = findViewById(R.id.scrollView);
+            scrollView.setFocusableInTouchMode(true);
+            scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
         }
@@ -69,58 +75,40 @@ public class ActorsActivity extends AppCompatActivity {
                 doc = Jsoup.connect(Utils.THEATER_URL + hrefTxt).get();
                 Elements actorsName = doc.select("h2");
 
+                //actors description
                 Elements divDesc = doc.select("div.desc");
                 Elements desc = divDesc.select("p");
                 for (int pDesc = 0; pDesc < desc.size(); pDesc++) {
                     actorsDescription.append(desc.get(pDesc));
-//                    perfDescription.append(desc.get(pDesc).text());
-//                    perfDescription.append(System.getProperty("line.separator"));
-
                 }
-                actorsDesc.post(new Runnable() {
-                    public void run() {
-                        MakeLinksClicable.textEditor(actorsDesc, String.valueOf(actorsDescription));
-                    }
-                });
+                actorsDesc.post(() -> MakeLinksClicable.textEditor(actorsDesc, String.valueOf(actorsDescription)));
 
                 listActorsLinks = new ArrayList<>();
+                listActors = new ArrayList<>();
 
-                List<String> actorsList = new ArrayList<>();
+//                Actors Roles
                 Elements h4 = doc.select("h4");
-                String actor = h4.get(0).text();
-
                 Element roles = doc.selectFirst("ul.roles");
                 Elements liRoles = roles.select("li");
                 for (int i = 0; i < liRoles.size(); i++) {
-//                    String a = liRoles.select("a").attr("href");
-//                    Log.i("Log", "Links: " + a);
-                    actorsList.add(liRoles.get(i).text());
-//                    Log.i("Log", "Name: " + liRoles.get(i).select("a").attr("href"));
+                    listActors.add(liRoles.get(i).text());
                     listActorsLinks.add(liRoles.get(i).select("a").attr("href"));
                 }
 
-                String director;
+//                Director;
                 if (h4.size() == 2) {
-                    director = h4.get(1).text();
-                    List<String> directorsList = new ArrayList<>();
+                    listDirector = new ArrayList<>();
                     listDirectorLinks = new ArrayList<>();
                     Element rolesDirector = doc.select("ul.roles").get(1);
                     Elements liDirectorRoles = rolesDirector.select("li");
                     for (int i = 0; i < liDirectorRoles.size(); i++) {
-                        directorsList.add(liDirectorRoles.get(i).text());
+                        listDirector.add(liDirectorRoles.get(i).text());
                         listDirectorLinks.add(liDirectorRoles.get(i).select("a").attr("href"));
                     }
-                    expandableListDetail.put(director, directorsList);
+                } else {
+                    director.post(() -> director.setVisibility(View.INVISIBLE));
                 }
-                expandableListDetail.put(actor, actorsList);
-                actorsInfo = new ActorsInfo(actorsName.text(),
-                        imageUrl,
-                        "",
-//                        String.valueOf(perfDescription),
-                        "",
-                        ""
-
-                );
+                actorsInfo = new ActorsInfo(actorsName.text(), imageUrl);
 
 //                Log.i("Log", "Name: " + actorsName.text());
 //                Log.i("Log", "Image: " + imageUrl);
@@ -144,40 +132,17 @@ public class ActorsActivity extends AppCompatActivity {
 
             binding.setActors(actorsInfo);
 
-            ExpandableListView expandableListView = findViewById(R.id.expandableListView);
-            List<String> expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
-            expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, expandableListDetail, listActorsLinks, listDirectorLinks);
-            expandableListView.setAdapter(expandableListAdapter);
+            listViewActors.setAdapter(new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, listActors));
+            listViewActors.setOnItemClickListener((adapterView, view, position, l) -> transition(listActorsLinks, position));
+            Utils.setDynamicHeight(listViewActors);
 
-//            setListViewHeight(expandableListView, 0);
-//            setListViewHeight(expandableListView, 0, expandableListAdapter);
-//            expandAllLists(expandableListView);
+            if (listDirector != null) {
+                listViewDirector.setAdapter(new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, listDirector));
+                listViewDirector.setOnItemClickListener((adapterView, view, position, l) -> transition(listDirectorLinks, position));
+                Utils.setDynamicHeight(listViewDirector);
+            }
 
-            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-//                    String title = expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition);
-                    if (groupPosition == 0){
-                        String link = listActorsLinks.get(childPosition);
-                        Intent intent = new Intent(getApplicationContext(), PerformanceDetailActivity.class);
-                        intent.putExtra("href", link);
-                        startActivity(intent);
-                    }
-                    if (groupPosition == 1){
-                        String linkD = listDirectorLinks.get(childPosition);
-                        Intent intent = new Intent(getApplicationContext(), PerformanceDetailActivity.class);
-                        intent.putExtra("href", linkD);
-                        startActivity(intent);
-                    }
-
-                    return false;
-                }
-            });
-            expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
-                setListViewHeight(parent, groupPosition, expandableListAdapter);
-//                    expandAllLists(expandableListView);
-                return false;
-            });
+//            scrollView.fullScroll(ScrollView.FOCUS_UP);
 
             progressBar.setVisibility(ProgressBar.INVISIBLE);
 
@@ -190,47 +155,10 @@ public class ActorsActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setListViewHeight(ExpandableListView listView, int group, ExpandableListAdapter listAdapter) {
-//        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
-        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
-            totalHeight += groupItem.getMeasuredHeight();
-
-            if (((listView.isGroupExpanded(i)) && (i != group))
-                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
-                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
-                    View listItem = listAdapter.getChildView(i, j, false, null, listView);
-                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
-                    totalHeight += listItem.getMeasuredHeight();
-
-                }
-                //Add Divider Height
-                totalHeight += listView.getDividerHeight() * (listAdapter.getChildrenCount(i) - 1);
-            }
-        }
-        //Add Divider Height
-        totalHeight += listView.getDividerHeight() * (listAdapter.getGroupCount() - 1);
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
-        if (height < 10)
-            height = 200;
-        params.height = height;
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-
+    private void transition(List<String> listLinks, int position){
+        Intent intent = new Intent(this, PerformanceDetailActivity.class);
+        intent.putExtra("href", listLinks.get(position));
+        startActivity(intent);
+        finish();
     }
-
-    public void expandAllLists(ExpandableListView listView){
-        for (int i = 0; i < listView.getExpandableListAdapter().getGroupCount(); i++) {
-            //Expand group
-            listView.expandGroup(i);
-        }
-    }
-
 }
