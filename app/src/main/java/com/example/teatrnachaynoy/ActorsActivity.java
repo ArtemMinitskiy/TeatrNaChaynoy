@@ -2,6 +2,8 @@ package com.example.teatrnachaynoy;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.teatrnachaynoy.Adapters.PerformancePhotosAdapter;
 import com.example.teatrnachaynoy.databinding.ActivityActorsBinding;
 
 import org.jsoup.Jsoup;
@@ -47,6 +50,7 @@ public class ActorsActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private class PerformanceHtmlParserHelper extends AsyncTask<Void, Void, Void> {
         ActorsInfo actorsInfo;
+        private ArrayList<Performance> actorsPhotosList = new ArrayList<>();
         private ArrayList<String> listActors, listDirector;
 
         @Override
@@ -95,6 +99,12 @@ public class ActorsActivity extends AppCompatActivity {
                     listActorsLinks.add(liRoles.get(i).select("a").attr("href"));
                 }
 
+                //Actors Photos
+                Elements a_photos = doc.select("a.fancybox-thumb");
+                for (int i = 0; i < a_photos.size(); i++) {
+                    actorsPhotosList.add(new Performance(Utils.THEATER_URL + a_photos.get(i).attr("href")));
+                }
+
 //                Director;
                 if (h4.size() == 2) {
                     listDirector = new ArrayList<>();
@@ -111,11 +121,6 @@ public class ActorsActivity extends AppCompatActivity {
                 actorsInfo = new ActorsInfo(actorsName.text(), imageUrl);
 
 //                Log.i("Log", "Name: " + actorsName.text());
-//                Log.i("Log", "Image: " + imageUrl);
-//                Log.i("Log", "Genre: " + p.get(2).text());
-//                Log.i("Log", "Duration: " + p.get(3).text());
-//                Log.i("Log", "Actors: " + actorsPerf + " Director: " + director);
-//                Log.i("Log", "Description: " + perfDescription);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -129,6 +134,14 @@ public class ActorsActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+            RecyclerView recyclerPhotosView = findViewById(R.id.actors_photos);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+            recyclerPhotosView.setHasFixedSize(true);
+            recyclerPhotosView.setLayoutManager(layoutManager);
+            RecyclerView.Adapter photosAdapter = new PerformancePhotosAdapter(actorsPhotosList);
+            photosAdapter.notifyDataSetChanged();
+            recyclerPhotosView.setAdapter(photosAdapter);
 
             binding.setActors(actorsInfo);
 

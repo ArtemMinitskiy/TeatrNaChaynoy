@@ -22,7 +22,6 @@ public class PerformancePhotosAdapter extends RecyclerView.Adapter<PerformancePh
 
     public PerformancePhotosAdapter(ArrayList<Performance> photosList) {
         this.photosList = photosList;
-
     }
 
     @NonNull

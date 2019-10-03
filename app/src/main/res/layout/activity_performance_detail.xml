@@ -55,13 +55,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.github.mmin18.widget.RealtimeBlurView
+                    android:id="@+id/blurView"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
-                    android:id="@+id/blurView"
                     app:layout_constraintBottom_toBottomOf="@id/perf_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:realtimeBlurRadius="10dp"
+                    app:realtimeBlurRadius="8dp"
                     app:realtimeOverlayColor="#60000000" />
 
                 <TextView
@@ -78,37 +78,15 @@
                     app:layout_constraintTop_toTopOf="@id/blurView" />
 
                 <TextView
-                    android:id="@+id/perf_genre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:text='@{performance.genre}'
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/perf_image" />
-
-                <TextView
-                    android:id="@+id/perf_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:text='@{performance.duration}'
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/perf_genre" />
-
-                <TextView
                     android:id="@+id/perf_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/perf_duration" />
+                    app:layout_constraintTop_toBottomOf="@+id/blurView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -127,6 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/workOnPerf"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="bold"
@@ -178,7 +157,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/thirdInsideLayout"
+                android:id="@+id/photosLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="5dp"
@@ -189,10 +168,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/secondInsideLayout">
 
                 <TextView
+                    android:id="@+id/notExistImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:text="@string/not_exist_photos"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="24sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/photosLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                <TextView
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/Photos"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="bold"
@@ -221,13 +219,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/thirdInsideLayout">
+                app:layout_constraintTop_toBottomOf="@+id/photosLayout">
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/question_and_order"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="bold"
@@ -254,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="16dp"
                     android:autoLink="all"
                     android:linksClickable="true"
                     android:text="@string/phone_number_2"

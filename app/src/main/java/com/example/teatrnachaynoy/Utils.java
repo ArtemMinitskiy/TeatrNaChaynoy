@@ -10,6 +10,11 @@ import android.widget.ListView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Utils {
     public final static String THEATER_URL = "http://tea-atr.com";
     public final static String GOOGLE_MAPS_URL = "https://www.google.com/maps/place/%D0%A2%D0%B5%D0%B0%D1%82%D1%80+%D0%BD%D0%B0+%D0%A7%D0%B0%D0%B9%D0%BD%D0%BE%D0%B9/@46.4780209,30.7480462,15z/data=!4m5!3m4!1s0x0:0x43aa6c1fb0d64eec!8m2!3d46.4787744!4d30.7496772?hl=ru-RU";
@@ -121,6 +126,19 @@ public class Utils {
         params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
         mListView.setLayoutParams(params);
         mListView.requestLayout();
+    }
+
+    public static Date dateformater(String str) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+
     }
 
 }

@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -43,6 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            Date currentDate = new Date();
             Document doc;
             Schedule schedule;
             try {
@@ -53,6 +55,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 for (int i = 0; i < rows.size(); i++) {
                     Element row = rows.get(i);
                     Elements cols = row.select("td");
+                    String dateUtils = row.select("span.value-title").attr("title");
                     Elements date = cols.select("span.wrap");
                     Elements title = date.select("a.url");
                     Elements timeLenght = date.select("span.time-lenght");
@@ -60,15 +63,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Document docInsideImage = Jsoup.connect(Utils.THEATER_URL + title.attr("href")).get();
                     Elements image = docInsideImage.select("img.cover");
 
-                    schedule = new Schedule(title.get(0).text(),
-                            date.get(0).text().substring(0, cols.get(0).text().indexOf(",")),
-                            cols.get(2).text(),
-                            timeLenght.get(0).text(),
-                            title.attr("href"),
-                            Utils.THEATER_URL + image.attr("src"));
+                    if (Utils.dateformater(dateUtils).after(currentDate)) {
+                        schedule = new Schedule(title.get(0).text(),
+                                date.get(0).text().substring(0, cols.get(0).text().indexOf(",")),
+                                cols.get(2).text(),
+                                timeLenght.get(0).text(),
+                                title.attr("href"),
+                                Utils.THEATER_URL + image.attr("src"));
 
-                    schedulesList.add(schedule);
-
+                        schedulesList.add(schedule);
+                    }
                 }
 
             } catch (IOException e) {

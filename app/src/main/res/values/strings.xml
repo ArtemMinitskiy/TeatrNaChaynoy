@@ -40,6 +40,7 @@
     <string name="actor">Актер</string>
     <string name="director">Режиссёр</string>
     <string name="dontConnect">Отсутствует подключние к интернету</string>
+    <string name="not_exist_photos">Фотографии отсутствуют</string>
 
 
 </resources>

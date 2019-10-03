@@ -3,6 +3,8 @@ package com.example.teatrnachaynoy;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -47,7 +49,6 @@ public class PerformanceDetailActivity extends AppCompatActivity {
         Performance performance;
         ActorsInfo actorsInfo;
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -71,25 +72,23 @@ public class PerformanceDetailActivity extends AppCompatActivity {
                 Elements hrefDirector = director.select("a");
                 Elements ul = div.select("ul");
 
+                //Performance Genre and Duration
+                perfDescription.append(p.get(2));
+                perfDescription.append(System.lineSeparator());
+                perfDescription.append(p.get(3));
+
                 //Performance Photos
                 Elements a_photos = doc.select("a.fancybox-thumb");
                 for (int i = 0; i < a_photos.size(); i++) {
                     performance = new Performance(Utils.THEATER_URL + a_photos.get(i).attr("href"));
                     photosList.add(performance);
                 }
-
                 //Performance Description
                 Elements divDesc = doc.select("div.desc");
                 Elements desc = divDesc.select("p");
                 for (int pDesc = 0; pDesc < desc.size(); pDesc++) {
-//                    Log.i("Log", "Performance: " + desc.get(pDesc));
-//                    perfDescription.append("   ").append(desc.get(pDesc).text());
-//                    perfDescription.append(System.getProperty("line.separator"));
                     perfDescription.append(desc.get(pDesc));
                 }
-
-//                actorsInfo = new ActorsInfo("Режиссёр", hrefDirector.get(0).text(), getImageSrc(hrefDirector.get(0).text()), hrefDirector.attr("href"));
-//                actorsInfoList.add(actorsInfo);
 
                 //Performance Actors
                 for (int i = 1; i < ul.size(); i++) {
@@ -110,18 +109,9 @@ public class PerformanceDetailActivity extends AppCompatActivity {
 
                 performance = new Performance(title.get(0).text(),
                         Utils.THEATER_URL + image.attr("src"),
-                        p.get(2).text(),
-                        p.get(3).text(),
-//                        "",
                         String.valueOf(perfDescription),
                         hrefDirector.get(0).text(),
                         hrefDirector.attr("href"));
-
-//                Log.i("Log", "Title: " + title.get(0).text());
-//                Log.i("Log", "Image: " + image.attr("src"));
-//                Log.i("Log", "Genre: " + p.get(2).text());
-//                Log.i("Log", "Duration: " + p.get(3).text());
-//                Log.i("Log", "Description: " + divDesc.text());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -140,6 +130,10 @@ public class PerformanceDetailActivity extends AppCompatActivity {
             RecyclerView recyclerActorsView = findViewById(R.id.perf_actors);
             RecyclerView recyclerPhotosView = findViewById(R.id.perf_photos);
 
+            final TextView notExistPhotos = findViewById(R.id.notExistImage);
+            if (photosList.isEmpty()) {
+                notExistPhotos.post(() -> notExistPhotos.setVisibility(View.VISIBLE));
+            }
             final TextView perfDesc = findViewById(R.id.perf_description);
             perfDesc.post(() -> MakeLinksClicable.textEditor(perfDesc, performance.getDescription()));
 
